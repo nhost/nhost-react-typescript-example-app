@@ -4,28 +4,28 @@ Super simple example using Hasura with Hasura Backend Plus (hbp)
 
 ## Auth
 
-[ ] register page
+[] register page
 
-[ ] activate account page
+[] activate account page
 
-[ ] sign in page
+[] sign in page
 
-[ ] implement refetch token strategy
+[] implement refetch token strategy
 
-[ ] new password page
+[] new password page
 
 ## Storage
 
-[ ] upload file
+[] upload file
 
-[ ] show file link (ex pdf)
+[] show file link (ex pdf)
 
-[ ] show file as image
+[] show file as image
 
 ## Hasura
 
-[ ] Get data using query
+[] Get data using query
 
-[ ] Get data using subscriptions
+[] Get data using subscriptions
 
-[ ] Mutate data
+[] Mutate data
