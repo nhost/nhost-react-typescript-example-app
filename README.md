@@ -1,6 +1,6 @@
-# React, Hasura, Hasura Backend Plus Example App
+# React, Hasura, nHost Example App
 
-Super simple example using Hasura with Hasura Backend Plus (hbp)
+Super simple example using Hasura with [nHost.io](https://nhost.io) Hasura Backend Plus (hbp)
 
 ## Auth
 
