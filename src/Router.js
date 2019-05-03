@@ -5,6 +5,7 @@ import PrivateRoute from './Components/PrivateRoute';
 import Dashboard from './Components/Dashboard';
 import Register from './Components/Register';
 import ActivateAccount from './Components/ActivateAccount';
+import NewPassword from './Components/NewPassword';
 import Login from './Components/Login';
 
 class RouterComponent extends Component {
@@ -44,6 +45,15 @@ class RouterComponent extends Component {
               <Login {...props} />
             )}
           />
+
+          <Route
+            exact
+            path="/new-password/:secret_token"
+            render={(props) => (
+              <NewPassword {...props} />
+            )}
+          />
+
 
 
         </Switch>

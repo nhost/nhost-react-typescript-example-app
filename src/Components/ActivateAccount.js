@@ -18,8 +18,10 @@ class ActivateAccount extends Component {
 
     console.log(this.props);
 
+    const { secret_token } = this.props.match.params;
+
     try {
-      await nhost.activate_account(this.props.match.params.secret_token);
+      await nhost.activate_account(secret_token);
     } catch (e) {
       alert('error activating account');
       console.log(e.data.message);
