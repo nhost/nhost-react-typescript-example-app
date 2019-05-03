@@ -24,7 +24,6 @@ class Register extends Component {
       password,
     } = this.state;
 
-    let res;
     try {
       await nhost.register(username, password);
     } catch (e) {

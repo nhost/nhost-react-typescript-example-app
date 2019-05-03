@@ -30,9 +30,10 @@ class Login extends Component {
     } catch (e) {
       alert('error logging in');
       console.log(e.data.message);
+      return;
     }
 
-    auth.setSession(res);
+    auth.initSession(res);
 
     this.props.history.push('/');
   }

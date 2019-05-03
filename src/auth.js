@@ -1,16 +1,28 @@
 import jwt from 'jsonwebtoken';
+import nhost from './nhost';
 
 class _auth {
 
   constructor() {
+    this.initSession = this.initSession.bind(this);
     this.setSession = this.setSession.bind(this);
     this.signOut = this.signOut.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.startRefetchTokenInterval = this.startRefetchTokenInterval.bind(this);
+    this.refetchToken = this.refetchToken.bind(this);
+    this.stopRefetchTokenInterval = this.stopRefetchTokenInterval.bind(this);
 
+    if (this.isAuthenticated()) {
+      this.startRefetchTokenInterval();
+    }
+  }
+
+  initSession(data) {
+    this.setSession(data);
+    this.startRefetchTokenInterval();
   }
 
   setSession(data) {
-
     const {
       jwt_token,
       refetch_token,
@@ -24,12 +36,31 @@ class _auth {
     localStorage.setItem('refetch_token', refetch_token);
     localStorage.setItem('user_id', user_id);
     localStorage.setItem('exp', (parseInt(claims.exp, 10) * 1000));
-
-    this.interval = setInterval(this.refetchToken, 3000);
   }
 
-  regetchToken() {
-    console.log('refetch token');
+  startRefetchTokenInterval() {
+    this.interval = setInterval(this.refetchToken, 60000);
+  }
+
+  async refetchToken() {
+
+    if (this.isAuthenticated()) {
+      const user_id = localStorage.getItem('user_id');
+      const refetch_token = localStorage.getItem('refetch_token');
+      try {
+        const data = await nhost.refetch_token(user_id, refetch_token);
+        this.setSession(data);
+      } catch (e) {
+        console.log('error fetching new token using refetch token');
+        console.error({e});
+      }
+    } else {
+      this.stopRefetchTokenInterval();
+    }
+  }
+
+  stopRefetchTokenInterval() {
+    clearInterval(this.interval);
   }
 
   signOut() {
@@ -38,7 +69,7 @@ class _auth {
     localStorage.removeItem('user_id');
     localStorage.removeItem('exp');
 
-    clearInterval(this.interval);
+    this.stopRefetchTokenInterval();
   }
 
   isAuthenticated() {

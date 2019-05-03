@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import PrivateRoute from './Components/PrivateRoute';
 import Dashboard from './Components/Dashboard';
 import Register from './Components/Register';
+import ActivateAccount from './Components/ActivateAccount';
 import Login from './Components/Login';
 
 class RouterComponent extends Component {
@@ -25,6 +26,14 @@ class RouterComponent extends Component {
             path="/register"
             render={(props) => (
               <Register {...props} />
+            )}
+          />
+
+          <Route
+            exact
+            path="/activate-account/:secret_token"
+            render={(props) => (
+              <ActivateAccount {...props} />
             )}
           />
 
