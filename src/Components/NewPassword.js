@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import nhost from '../nhost';
-import auth from '../auth';
 
 class Login extends Component {
 
@@ -35,7 +34,7 @@ class Login extends Component {
       await nhost.new_password(secret_token, password);
     } catch (e) {
       alert('error setting new password');
-      console.log(e.data.message);
+      console.error(e.data.message);
       return;
     }
 
