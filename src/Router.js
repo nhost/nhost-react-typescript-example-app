@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-import AuthGate from './Components/AuthGate';
-import Dashboard from './Components/Dashboard'
+import PrivateRoute from './Components/PrivateRoute';
+import Dashboard from './Components/Dashboard';
 import Register from './Components/Register';
+import Login from './Components/Login';
 
 class RouterComponent extends Component {
   render() {
@@ -11,13 +12,11 @@ class RouterComponent extends Component {
       <Router>
         <Switch>
 
-          <Route
+          <PrivateRoute
             exact
             path="/"
             render={(props) => (
-              <AuthGate {...props}>
-                <Dashboard {...props} />
-              </AuthGate>
+              <Dashboard {...props} />
             )}
           />
 
@@ -28,6 +27,15 @@ class RouterComponent extends Component {
               <Register {...props} />
             )}
           />
+
+          <Route
+            exact
+            path="/login"
+            render={(props) => (
+              <Login {...props} />
+            )}
+          />
+
 
         </Switch>
       </Router>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import nhost from '../nhost';
+import auth from '../auth';
 
-class Register extends Component {
+class Login extends Component {
 
   constructor(props) {
     super(props);
@@ -26,21 +27,22 @@ class Register extends Component {
 
     let res;
     try {
-      await nhost.register(username, password);
+      res = await nhost.login(username, password);
     } catch (e) {
-      alert('error regiter');
+      alert('error logging in');
       console.log(e.data.message);
     }
 
-    this.props.history.push('/login');
+    auth.setSession(res);
+
+    this.props.history.push('/');
   }
 
   render() {
     return (
       <>
-        <h1>Register</h1>
+        <h1>Login</h1>
         <div>
-
           <form
             onSubmit={this.onFormSubmit}
           >
@@ -57,16 +59,16 @@ class Register extends Component {
             <button
               type="submit"
             >
-              Register
+              Login
             </button>
           </form>
         </div>
         <div>
-          Already have an account? <Link to="/login">Login</Link>.
+          Don't have an account? <Link to="/register">Register</Link>.
         </div>
       </>
     );
   }
 }
 
-export default withRouter(Register);
+export default withRouter(Login);
