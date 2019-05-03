@@ -4,9 +4,9 @@ Super simple example using Hasura with [nHost.io](https://nhost.io).
 
 ## Auth
 
-- [ ] register page
+- [x] register page
 - [ ] activate account page
-- [ ] sign in page
+- [x] sign in page
 - [ ] implement refetch token strategy
 - [ ] new password page
 

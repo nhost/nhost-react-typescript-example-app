@@ -16,7 +16,6 @@ class Login extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
-
   async onFormSubmit(e) {
     e.preventDefault();
 

@@ -28,7 +28,7 @@ class Register extends Component {
     try {
       await nhost.register(username, password);
     } catch (e) {
-      alert('error regiter');
+      alert('error register');
       console.log(e.data.message);
     }
 
