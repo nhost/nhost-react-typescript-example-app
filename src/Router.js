@@ -21,6 +21,14 @@ class RouterComponent extends Component {
               <Dashboard {...props} />
             )}
           />
+          <PrivateRoute
+            exact
+            path="/other"
+            render={(props) => (
+              <>other route</>
+            )}
+          />
+
 
           <Route
             exact

@@ -51,7 +51,7 @@ class _auth {
         const data = await nhost.refetch_token(user_id, refetch_token);
         this.setSession(data);
       } catch (e) {
-        console.log('error fetching new token using refetch token');
+        console.error('error fetching new token using refetch token');
         console.error({e});
       }
     } else {
