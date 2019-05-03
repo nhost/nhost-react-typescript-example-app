@@ -2,39 +2,48 @@ import jwt from 'jsonwebtoken';
 
 class _auth {
 
-	constructor() {
-		this.setSession = this.setSession.bind(this);
-		this.signOut = this.signOut.bind(this);
-		this.isAuthenticated = this.isAuthenticated.bind(this);
-	}
+  constructor() {
+    this.setSession = this.setSession.bind(this);
+    this.signOut = this.signOut.bind(this);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
 
-	setSession(data) {
+  }
 
-		const {
-			jwt_token,
-			refetch_token,
-			user_id,
-		} = data;
+  setSession(data) {
 
-		var claims = jwt.decode(jwt_token);
+    const {
+      jwt_token,
+      refetch_token,
+      user_id,
+    } = data;
 
-		localStorage.clear();
-		localStorage.setItem('jwt_token', jwt_token);
-		localStorage.setItem('refetch_token', refetch_token);
-		localStorage.setItem('user_id', user_id);
-		localStorage.setItem('exp', (parseInt(claims.exp, 10) * 1000));
-	}
+    var claims = jwt.decode(jwt_token);
 
-	signOut() {
-		localStorage.removeItem('jwt_token');
-		localStorage.removeItem('refetch_token');
-		localStorage.removeItem('user_id');
-		localStorage.removeItem('exp');
-	}
+    localStorage.clear();
+    localStorage.setItem('jwt_token', jwt_token);
+    localStorage.setItem('refetch_token', refetch_token);
+    localStorage.setItem('user_id', user_id);
+    localStorage.setItem('exp', (parseInt(claims.exp, 10) * 1000));
 
-	isAuthenticated() {
-		return new Date().getTime() < localStorage.getItem('exp');
-	}
+    this.interval = setInterval(this.refetchToken, 3000);
+  }
+
+  regetchToken() {
+    console.log('refetch token');
+  }
+
+  signOut() {
+    localStorage.removeItem('jwt_token');
+    localStorage.removeItem('refetch_token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('exp');
+
+    clearInterval(this.interval);
+  }
+
+  isAuthenticated() {
+    return new Date().getTime() < localStorage.getItem('exp');
+  }
 }
 
 const auth = new _auth();
