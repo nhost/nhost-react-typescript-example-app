@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-// import nhost from '../nhost';
-import auth from '../auth';
+import nhost from '../nhost';
 
 class PrivateRoute extends Component {
 
@@ -11,12 +10,16 @@ class PrivateRoute extends Component {
     console.log(props);
   }
 
+  async isAuthenticated() {
+    return await nhost.isAuthenticated();
+  }
+
   render() {
     return (
       <Route
         {...this.props}
         render={props => {
-          if (!auth.isAuthenticated()) {
+          if (!this.isAuthenticated()) {
             return (
               <Redirect
                 to={{

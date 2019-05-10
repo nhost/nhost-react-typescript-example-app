@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import nhost from '../nhost';
-import auth from '../auth';
 
 class Login extends Component {
 
@@ -24,16 +23,13 @@ class Login extends Component {
       password,
     } = this.state;
 
-    let res;
     try {
-      res = await nhost.login(username, password);
+      await nhost.login(username, password);
     } catch (e) {
       alert('error logging in');
-      console.log(e.data.message);
+      console.log(e);
       return;
     }
-
-    auth.initSession(res);
 
     this.props.history.push('/');
   }
@@ -50,6 +46,7 @@ class Login extends Component {
               type="text"
               value={this.state.username}
               onChange={(e) => this.setState({username: e.target.value})}
+              autoFocus
             />
             <input
               type="password"
