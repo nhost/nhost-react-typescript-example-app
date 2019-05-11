@@ -27,7 +27,7 @@ class Login extends Component {
       await nhost.login(username, password);
     } catch (e) {
       alert('error logging in');
-      console.log(e);
+      console.error(e);
       return;
     }
 

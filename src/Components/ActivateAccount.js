@@ -14,23 +14,19 @@ class ActivateAccount extends Component {
 
 
   async activateAccount() {
-    console.log('yes?');
-
-    console.log(this.props);
-
     const { secret_token } = this.props.match.params;
 
     try {
       await nhost.activate_account(secret_token);
     } catch (e) {
       alert('error activating account');
-      console.log(e.data.message);
+      console.error(e);
       // return;
     }
 
-    console.log('activation OK');
+    alert('account activated');
 
-    // this.props.history.push('/login');
+    this.props.history.push('/login');
   }
 
   render() {

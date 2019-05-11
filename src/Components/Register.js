@@ -28,7 +28,7 @@ class Register extends Component {
       await nhost.register(username, password);
     } catch (e) {
       alert('error register');
-      console.log(e.data.message);
+      console.error(e);
     }
 
     this.props.history.push('/login');

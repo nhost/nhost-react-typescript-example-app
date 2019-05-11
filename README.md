@@ -21,3 +21,10 @@ Super simple example using Hasura with [nHost.io](https://nhost.io).
 - [ ] Get data using query
 - [ ] Get data using subscriptions
 - [ ] Mutate data
+
+
+# Install
+
+```
+npm install --save react-apollo apollo-cache-inmemory apollo-client apollo-link-context apollo-link-http apollo-link-ws apollo-link graphql graphql-tag subscriptions-transport-ws
+```
