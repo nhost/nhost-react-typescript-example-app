@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { ApolloProvider } from 'react-apollo';
+import { client } from '../apollo/client';
 import Login from './Login';
 import nhost from '../nhost';
 
@@ -7,9 +9,6 @@ class PrivateRoute extends Component {
 
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
   }
 
   render() {
@@ -24,7 +23,11 @@ class PrivateRoute extends Component {
             );
           }
 
-          return this.props.render();
+          return (
+            <ApolloProvider client={client}>
+              {this.props.render()}
+            </ApolloProvider>
+          );
 
         }}
       />
