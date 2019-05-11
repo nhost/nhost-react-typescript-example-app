@@ -8,7 +8,7 @@ Super simple example using Hasura with [nHost.io](https://nhost.io).
 - [x] activate account page
 - [x] sign in page
 - [x] implement refetch token strategy
-- [ ] new password page
+- [x] new password page
 
 ## Storage
 
@@ -19,8 +19,8 @@ Super simple example using Hasura with [nHost.io](https://nhost.io).
 ## Hasura
 
 - [ ] Get data using query
-- [ ] Get data using subscriptions
-- [ ] Mutate data
+- [x] Get data using subscriptions
+- [x] Mutate data
 
 
 # Install
