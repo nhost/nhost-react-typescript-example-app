@@ -1,6 +1,14 @@
-# React, Hasura, nHost Example App
+# nhost.io Example App with React
 
-Super simple example using Hasura with [nHost.io](https://nhost.io).
+Super simple example using Hasura,  with [nhost.io](https://nhost.io).
+
+## Get started
+
+1. Create a project on nhost.io
+2. Clone this repo
+3. Edit config.js with the details from you project at nhost.io
+4. `npm install`
+5. `npm start`
 
 ## Auth
 

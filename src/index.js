@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import Router from './Router';
+import BaseRouter from './Routes/BaseRouter';
+import UserProvider from './Contexts/User/UserProvider';
 
 ReactDOM.render(
-    <Router />,
+  <UserProvider>
+    <BaseRouter />
+  </UserProvider>,
   document.getElementById('root')
 );
 

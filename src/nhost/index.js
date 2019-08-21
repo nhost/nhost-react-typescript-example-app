@@ -1,7 +1,8 @@
 import nhost from 'nhost-js-sdk';
+import { BACKEND_ENDPOINT } from '../config';
 
 const config = {
-  endpoint: 'https://backend-yi8ci911.nhost.io',
+  endpoint: BACKEND_ENDPOINT,
 };
 
 export default new nhost(config);

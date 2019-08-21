@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import nhost from '../nhost';
 
 class Register extends Component {
@@ -27,11 +27,8 @@ class Register extends Component {
     try {
       await nhost.register(username, password);
     } catch (e) {
-      alert('error register');
       console.error(e);
     }
-
-    this.props.history.push('/login');
   }
 
   render() {
@@ -39,7 +36,6 @@ class Register extends Component {
       <>
         <h1>Register</h1>
         <div>
-
           <form
             onSubmit={this.onFormSubmit}
           >
@@ -68,4 +64,4 @@ class Register extends Component {
   }
 }
 
-export default withRouter(Register);
+export default Register;

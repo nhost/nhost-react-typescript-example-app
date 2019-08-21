@@ -1,36 +1,49 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
-import { client } from '../apollo/client';
 import Login from './Login';
 import nhost from '../nhost';
+import { UserContext } from '../Contexts/User/UserContext';
+import { generateApolloProviderClient } from '../apollo/client';
 
 class PrivateRoute extends Component {
 
   constructor(props) {
     super(props);
+
+    this.client = false;
   }
 
   render() {
     return (
-      <Route
-        {...this.props}
-        render={props => {
-
-          if (!nhost.isAuthenticated()) {
-            return (
-              <Login />
-            );
-          }
-
+      <UserContext.Consumer>
+        {user => {
           return (
-            <ApolloProvider client={client}>
-              {this.props.render()}
-            </ApolloProvider>
-          );
+            <Route
+              {...this.props}
+              render={props => {
 
+                if (!nhost.isAuthenticated()) {
+                  return (
+                    <Login />
+                  );
+                }
+
+                if (!this.client) {
+                  this.client = generateApolloProviderClient();
+                }
+
+                return (
+                  <ApolloProvider client={this.client}>
+                    {this.props.render()}
+                  </ApolloProvider>
+                );
+
+              }}
+            />
+          );
         }}
-      />
+      </UserContext.Consumer>
     );
   }
 }
