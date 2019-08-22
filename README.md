@@ -17,6 +17,7 @@ Super simple example using Hasura,  with [nhost.io](https://nhost.io).
 - [x] sign in page
 - [x] implement refetch token strategy
 - [x] new password page
+- [ ] forgot password
 
 ## Storage
 
