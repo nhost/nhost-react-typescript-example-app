@@ -14,7 +14,7 @@
     "graphql": "^14.3.0",
     "graphql-tag": "^2.10.1",
     "jsonwebtoken": "^8.5.1",
-    "nhost-js-sdk": "0.0.8",
+    "nhost-js-sdk": "0.0.10",
     "react": "^16.8.5",
     "react-apollo": "^2.5.8",
     "react-dom": "^16.8.6",

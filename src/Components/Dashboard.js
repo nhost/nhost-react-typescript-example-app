@@ -107,6 +107,7 @@ class Dashboard extends Component {
                       >
                         {item.done && <s>{item.todo}</s>}
                         {!item.done && <>{item.todo}</>}
+                        {item.updated_at}
                       </li>
                     );
                   })}
