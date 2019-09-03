@@ -33,11 +33,12 @@ Simple [Nhost](https://nhost.io) example app using [Hasura](https://hasura.io).
 
 # Install
 
-1. Create Nhost project
+## 1. Create Nhost project
 
-2. Edit `src/config.js` with your Nhost project links
+## 2. Edit `src/config.js` with your Nhost project links
 
-3. Add the todos table
+## 3. Add the todos table
+
   - Go to your **Hasura console**
   - Click on the **Data** tab in the top menu
   - Click on **SQL** in the left side menu
@@ -46,7 +47,8 @@ Simple [Nhost](https://nhost.io) example app using [Hasura](https://hasura.io).
   - Click **Run!**
 
 
-4. Set permissions
+## 4. Set permissions
+
   - Click on the `todos` table in the left side menu
   - Click on **Permissions** in the top menu
   - Enter a new role `user`
@@ -81,13 +83,13 @@ Simple [Nhost](https://nhost.io) example app using [Hasura](https://hasura.io).
     - Click **Save Permissions**
 
 
-5. Create GraphQL relations
+## 5. Create GraphQL relations
 
   - Click on the **Data** tab in the top menu
   - Click **Track All** next to "Untracked foreign-key relations"
 
 
-6. Start the app
+## 6. Start the app
 
 ```
 npm install
@@ -97,10 +99,10 @@ npm start
 The app should appear in the browser.
 
 
-7. Register account
+## 7. Register account
 
 
-8. Login
+## 8. Login
 
 
-9. Use the Todo app
+## 9. Use the Todo app
