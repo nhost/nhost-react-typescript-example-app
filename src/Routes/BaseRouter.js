@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-import Register from '../Components/Register';
+import Signup from '../Components/Signup';
 import ActivateAccount from '../Components/ActivateAccount';
 import NewPassword from '../Components/NewPassword';
-import Login from '../Components/Login';
 import PrivateRoute from '../Components/PrivateRoute';
 import AppRouter from './AppRouter';
 
@@ -16,9 +15,9 @@ class RouterComponent extends Component {
 
           <Route
             exact
-            path="/register"
+            path="/signup"
             render={(props) => (
-              <Register {...props} />
+              <Signup {...props} />
             )}
           />
 
@@ -27,14 +26,6 @@ class RouterComponent extends Component {
             path="/activate-account/:secret_token"
             render={(props) => (
               <ActivateAccount {...props} />
-            )}
-          />
-
-          <Route
-            exact
-            path="/login"
-            render={(props) => (
-              <Login {...props} />
             )}
           />
 

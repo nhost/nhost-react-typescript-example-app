@@ -6,7 +6,7 @@ const TODO_FRAGMENT = gql`
     id
     todo
     done
-    added_at
+    created_at
     updated_at
   }
 `;
@@ -14,8 +14,7 @@ const TODO_FRAGMENT = gql`
 export const GET_TODOS = gql`
 query {
   todos (
-    limit: 5,
-    order_by: { added_at: desc }
+    order_by: { created_at: desc }
   ) {
     ...TodoFragment
   }
@@ -23,11 +22,11 @@ query {
 ${TODO_FRAGMENT}
 `;
 
+// same as GET_TODOS but with subscription (realtime)
 export const S_GET_TODOS = gql`
 subscription {
   todos (
-    limit: 5,
-    order_by: { added_at: desc }
+    order_by: { created_at: desc }
   ) {
     ...TodoFragment
   }
@@ -52,7 +51,7 @@ ${TODO_FRAGMENT}
 
 export const UPDATE_TODO = gql`
 mutation (
-  $id: Int!
+  $id: uuid!
   $todo: todos_set_input!
 ) {
   update_todos (
@@ -65,4 +64,16 @@ mutation (
   }
 }
 ${TODO_FRAGMENT}
+`;
+
+export const CLEAR_COMPLETED = gql`
+mutation {
+  delete_todos (
+    where: { done: { _eq: true }}
+  ) {
+    returning {
+      id
+    }
+  }
+}
 `;

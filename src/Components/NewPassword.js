@@ -38,7 +38,7 @@ class Login extends Component {
       return;
     }
 
-    this.props.history.push('/login');
+    this.props.history.push('/');
   }
 
   render() {

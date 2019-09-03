@@ -21,7 +21,7 @@ class RouterComponent extends Component {
             exact
             path="/other"
             render={(props) => (
-              <div>Other </div>
+              <div>Other</div>
             )}
           />
 

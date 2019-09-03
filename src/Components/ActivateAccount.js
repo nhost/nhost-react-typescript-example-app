@@ -26,7 +26,7 @@ class ActivateAccount extends Component {
 
     alert('account activated');
 
-    this.props.history.push('/login');
+    this.props.history.push('/');
   }
 
   render() {
