@@ -96,8 +96,10 @@ class Register extends Component {
       marketing,
     };
 
+    const email = username;
+
     try {
-      await nhost.register(username, password, register_data);
+      await nhost.register(email, username, password, register_data);
     } catch (e) {
 
       let error_msg = 'unknown error';

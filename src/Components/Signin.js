@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import config from '../config';
 
 import nhost from '../nhost';
 
@@ -170,6 +171,14 @@ class Signin extends Component {
               {this.state.error_msg}
             </div>
           }
+          <div className="or-sign-up-with">
+            OR SIGN UP WITH
+          </div>
+          <div className="auth-providers">
+            <a href={`${config.BACKEND_ENDPOINT}/auth/github`}>
+              Github
+            </a>
+          </div>
           <div className="bottom-info">
             <Link to="/signup">Don't have an account? Sign Up!</Link>
           </div>
