@@ -134,7 +134,7 @@ class Register extends Component {
           </div>
           <Button
             component={Link}
-            to={`/signin`}
+            to={`/`}
             variant="contained"
             color="primary"
             type="submit"
@@ -232,7 +232,7 @@ class Register extends Component {
           </div>
         </form>
         <div className="bottom-info">
-          <Link to="/signin">Already have an account? Sign In!</Link>
+          <Link to="/">Already have an account? Sign In!</Link>
         </div>
       </>
     );
