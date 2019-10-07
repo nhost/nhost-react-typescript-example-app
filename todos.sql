@@ -2,7 +2,7 @@ CREATE TABLE "public"."todos" (
     "id" uuid NOT NULL DEFAULT gen_random_uuid(),
     "created_at" timestamptz NOT NULL DEFAULT now(),
     "updated_at" timestamptz NOT NULL DEFAULT now(),
-    "user_id" int4 NOT NULL,
+    "user_id" uuid NOT NULL,
     "todo" text NOT NULL,
     "done" bool NOT NULL DEFAULT false,
     CONSTRAINT "todos_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE RESTRICT,
