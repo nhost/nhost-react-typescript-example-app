@@ -140,6 +140,14 @@ class Dashboard extends Component {
               Log out
             </span>
 
+            <span onClick={() => {
+              nhost.logout(true);
+              this.props.history.push('/');
+            }}>
+              Log out all sessions
+            </span>
+
+
           </div>
           <div className="todo-container">
 

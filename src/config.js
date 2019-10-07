@@ -1,3 +1,3 @@
-exports.HASURA_GQE_ENDPOINT_WS = 'wss://hasura-xxxxxxx.nhost.io/v1/graphql';
-exports.HASURA_GQE_ENDPOINT_HTTP = 'https://hasura-xxxxxxx.nhost.io/v1/graphql';
-exports.BACKEND_ENDPOINT = 'https://backend-xxxxxxx.nhost.io';
+exports.HASURA_GQE_ENDPOINT_WS = 'ws://localhost:8080/v1/graphql';
+exports.HASURA_GQE_ENDPOINT_HTTP = 'http://localhost:8080/v1/graphql';
+exports.BACKEND_ENDPOINT = 'http://localhost:4000';

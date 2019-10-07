@@ -7,6 +7,10 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import config from '../config';
+import github from '../images/github.png';
+import google from '../images/google.png';
+import facebook from '../images/facebook.png';
 
 import nhost from '../nhost';
 
@@ -38,6 +42,50 @@ S.Signin = styled.div`
     .loading {
       margin-right: 1rem;
     }
+  }
+
+  .or-signup-with {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+
+  .auth-providers {
+
+    a {
+      color: #000;
+    }
+
+    .provider-container {
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      border: 1px solid #b1b1b1;
+      line-height: 0;
+      margin-bottom: 1rem;
+
+      &:hover {
+        background: #eeeeee;
+      }
+
+      .logo {
+        padding: 1rem;
+        border-right: 1px solid #b1b1b1;
+        img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      .text {
+        flex: 1;
+        margin-left: 2rem;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+        font-size: 15px;
+      }
+    }
+
   }
 
   .error-container {
@@ -170,6 +218,41 @@ class Signin extends Component {
               {this.state.error_msg}
             </div>
           }
+          <div className="or-signup-with">
+            OR SIGN IN WITH
+          </div>
+          <div className="auth-providers">
+            <a href={`${config.BACKEND_ENDPOINT}/auth/github`}>
+              <div className="provider-container">
+                <div className="logo">
+                  <img src={github} alt="github" />
+                </div>
+                <div className="text">
+                  Sign in with Github
+                </div>
+              </div>
+            </a>
+            <a href={`${config.BACKEND_ENDPOINT}/auth/google`}>
+              <div className="provider-container">
+                <div className="logo">
+                  <img src={google} alt="google" />
+                </div>
+                <div className="text">
+                  Sign in with Google
+                </div>
+              </div>
+            </a>
+            <a href={`${config.BACKEND_ENDPOINT}/auth/facebook`}>
+              <div className="provider-container">
+                <div className="logo">
+                  <img src={facebook} alt="facebook" />
+                </div>
+                <div className="text">
+                  Sign in with Facebook
+                </div>
+              </div>
+            </a>
+          </div>
           <div className="bottom-info">
             <Link to="/signup">Don't have an account? Sign Up!</Link>
           </div>
