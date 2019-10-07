@@ -8,6 +8,10 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import config from '../config';
+import github from '../images/github.png';
+import google from '../images/google.png';
+import facebook from '../images/facebook.png';
 
 import nhost from '../nhost';
 
@@ -37,6 +41,50 @@ S.Register = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 2rem;
+  }
+
+  .or-signup-with {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+
+  .auth-providers {
+
+    a {
+      color: #000;
+    }
+
+    .provider-container {
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      border: 1px solid #b1b1b1;
+      line-height: 0;
+      margin-bottom: 1rem;
+
+      &:hover {
+        background: #eeeeee;
+      }
+
+      .logo {
+        padding: 1rem;
+        border-right: 1px solid #b1b1b1;
+        img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      .text {
+        flex: 1;
+        margin-left: 2rem;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+        font-size: 15px;
+      }
+    }
+
   }
 
   .bottom-info {
@@ -231,6 +279,41 @@ class Register extends Component {
 
           </div>
         </form>
+        <div className="or-signup-with">
+          OR SIGN UP WITH
+        </div>
+        <div className="auth-providers">
+          <a href={`${config.BACKEND_ENDPOINT}/auth/github`}>
+            <div className="provider-container">
+              <div className="logo">
+                <img src={github} alt="github" />
+              </div>
+              <div className="text">
+                Sign up with Github
+              </div>
+            </div>
+          </a>
+          <a href={`${config.BACKEND_ENDPOINT}/auth/google`}>
+            <div className="provider-container">
+              <div className="logo">
+                <img src={google} alt="google" />
+              </div>
+              <div className="text">
+                Sign up with Google
+              </div>
+            </div>
+          </a>
+          <a href={`${config.BACKEND_ENDPOINT}/auth/facebook`}>
+            <div className="provider-container">
+              <div className="logo">
+                <img src={facebook} alt="facebook" />
+              </div>
+              <div className="text">
+                Sign up with Facebook
+              </div>
+            </div>
+            </a>
+          </div>
         <div className="bottom-info">
           <Link to="/">Already have an account? Sign In!</Link>
         </div>
