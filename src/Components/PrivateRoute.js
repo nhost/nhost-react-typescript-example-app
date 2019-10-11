@@ -25,7 +25,9 @@ class PrivateRoute extends Component {
 
                 if (!nhost.isAuthenticated()) {
                   return (
-                    <Signin />
+                    <Signin
+                      {...this.props}
+                    />
                   );
                 }
 

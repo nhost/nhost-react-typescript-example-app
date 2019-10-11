@@ -125,6 +125,7 @@ class Dashboard extends Component {
   }
 
   render() {
+
     return (
       <S.Dashboard>
         <div className="main-container">
@@ -146,7 +147,6 @@ class Dashboard extends Component {
             }}>
               Log out all sessions
             </span>
-
 
           </div>
           <div className="todo-container">
