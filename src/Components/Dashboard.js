@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withApollo, Subscription } from 'react-apollo';
+import Header from './Header';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-
-import nhost from '../nhost';
 
 import {
   S_GET_TODOS,
@@ -131,24 +130,9 @@ class Dashboard extends Component {
         <div className="main-container">
 
           <div>
-
-            <Link to={`/other`}>other</Link>
-
-            <span onClick={() => {
-              nhost.logout();
-              this.props.history.push('/');
-            }}>
-              Log out
-            </span>
-
-            <span onClick={() => {
-              nhost.logout(true);
-              this.props.history.push('/');
-            }}>
-              Log out all sessions
-            </span>
-
+            <Header />
           </div>
+
           <div className="todo-container">
 
             <div>
@@ -174,7 +158,10 @@ class Dashboard extends Component {
               {({ loading, error, data }) => {
 
                 if (loading) return 'Loading...';
-                if (error) return `Error! ${error.message}`;
+                if (error) {
+                  console.log({error});
+                  return `Error! ${error.message}`;
+                }
 
                 const { todos } = data;
 

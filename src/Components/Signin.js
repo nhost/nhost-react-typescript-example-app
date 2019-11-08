@@ -12,7 +12,7 @@ import github from '../images/github.png';
 import google from '../images/google.png';
 import facebook from '../images/facebook.png';
 
-import nhost from '../nhost';
+import { auth } from '../nhost';
 
 const S = {};
 S.Signin = styled.div`
@@ -133,7 +133,7 @@ class Signin extends Component {
     } = this.state;
 
     try {
-      await nhost.login(username, password);
+      await auth.login(username, password);
     } catch (e) {
       console.error(e);
 

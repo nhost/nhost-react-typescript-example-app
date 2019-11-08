@@ -5,7 +5,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { HttpLink } from 'apollo-link-http';
 import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
-import nhost from '../nhost';
+import { auth } from '../nhost';
 
 import { HASURA_GQE_ENDPOINT_WS, HASURA_GQE_ENDPOINT_HTTP } from '../config';
 
@@ -20,7 +20,7 @@ export const generateApolloProviderClient = (param_headers = {}) => {
     options: {
       reconnect: true,
       connectionParams: () => {
-        const jwt_token = nhost.getJWTToken();
+        const jwt_token = auth.getJWTToken();
         return {
           headers: {
             authorization: jwt_token ? `Bearer ${jwt_token}` : '',
@@ -36,7 +36,7 @@ export const generateApolloProviderClient = (param_headers = {}) => {
   });
 
   const authLink = setContext((a, { headers }) => {
-    const jwt_token = nhost.getJWTToken();
+    const jwt_token = auth.getJWTToken();
     return {
       headers: {
         ...headers,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import nhost from '../nhost';
+import { auth } from '../nhost';
 
 class ActivateAccount extends Component {
 
@@ -17,7 +17,7 @@ class ActivateAccount extends Component {
     const { secret_token } = this.props.match.params;
 
     try {
-      await nhost.activate_account(secret_token);
+      await auth.activate_account(secret_token);
     } catch (e) {
       alert('error activating account');
       console.error(e);

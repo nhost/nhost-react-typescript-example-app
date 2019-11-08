@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import Signin from './Signin';
-import nhost from '../nhost';
+import { auth } from '../nhost';
 import { UserContext } from '../Contexts/User/UserContext';
 import { generateApolloProviderClient } from '../apollo/client';
 
@@ -23,7 +23,7 @@ class PrivateRoute extends Component {
               {...this.props}
               render={props => {
 
-                if (!nhost.isAuthenticated()) {
+                if (!auth.isAuthenticated()) {
                   return (
                     <Signin
                       {...this.props}

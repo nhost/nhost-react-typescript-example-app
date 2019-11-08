@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import nhost from '../../nhost';
+import { auth } from '../../nhost';
 // import jwt from 'jsonwebtoken';
 import { UserContext, defaultUserContext } from './UserContext';
 
@@ -10,7 +10,7 @@ class UserContextProvider extends Component {
   }
 
   componentDidMount() {
-    nhost.onAuthStateChanged(data => {
+    auth.onAuthStateChanged(data => {
 
       if (!data) {
         this.setState({

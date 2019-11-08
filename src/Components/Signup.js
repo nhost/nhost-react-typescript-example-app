@@ -13,7 +13,7 @@ import github from '../images/github.png';
 import google from '../images/google.png';
 import facebook from '../images/facebook.png';
 
-import nhost from '../nhost';
+import { auth } from '../nhost';
 
 const S = {};
 S.Register = styled.div`
@@ -147,7 +147,7 @@ class Register extends Component {
     const email = username;
 
     try {
-      await nhost.register(email, username, password, register_data);
+      await auth.register(email, username, password, register_data);
     } catch (e) {
 
       let error_msg = 'unknown error';
