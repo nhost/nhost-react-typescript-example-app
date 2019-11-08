@@ -85,7 +85,6 @@ S.Signin = styled.div`
         font-size: 15px;
       }
     }
-
   }
 
   .error-container {
