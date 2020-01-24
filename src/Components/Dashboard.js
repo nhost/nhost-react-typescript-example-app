@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { auth } from '../nhost';
 
 import {
   S_GET_TODOS,
@@ -119,12 +120,12 @@ class Dashboard extends Component {
   renderCheckButton(item) {
     if (item.done) {
       return <CheckCircleOutlineIcon />;
-    } // else
+    }
+
     return <RadioButtonUncheckedIcon  />;
   }
 
   render() {
-
     return (
       <S.Dashboard>
         <div className="main-container">
