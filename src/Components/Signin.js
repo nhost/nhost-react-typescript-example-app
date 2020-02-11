@@ -114,8 +114,8 @@ class Signin extends Component {
     };
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onSignInAnonymously = this.onSignInAnonymously.bind(this);
   }
-
 
   async onFormSubmit(e) {
     e.preventDefault();
@@ -149,6 +149,34 @@ class Signin extends Component {
         error_msg,
       });
       return;
+    }
+  }
+
+  async onSignInAnonymously() {
+
+    this.setState({
+      loading: true,
+      error: false,
+      error_msg: '',
+    });
+
+    try {
+      await auth.signInAnonymously({lol: 'test'});
+    } catch (e) {
+      console.error(e);
+
+      let error_msg = 'unknown error';
+      try {
+        error_msg = e.data.message;
+      } catch (e) {
+        //noop
+      }
+
+      return this.setState({
+        loading: false,
+        error: true,
+        error_msg,
+      });
     }
   }
 
@@ -217,6 +245,23 @@ class Signin extends Component {
               {this.state.error_msg}
             </div>
           }
+          <div className="or-signup-with">
+            OR SIGN IN WITH
+          </div>
+
+          <div className="auth-providers">
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              disabled={this.state.loading}
+              className="submit-button"
+              onClick={this.onSignInAnonymously}
+            >
+              Sign in anonymously
+            </Button>
+          </div>
+
           <div className="or-signup-with">
             OR SIGN IN WITH
           </div>
