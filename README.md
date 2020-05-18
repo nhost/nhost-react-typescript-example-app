@@ -1,135 +1,44 @@
-# Nhost Example App with React
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Simple [Nhost](https://nhost.io) example app using [Hasura](https://hasura.io).
+## Available Scripts
 
-## Get started
+In the project directory, you can run:
 
-1. Create a project on nhost.io
-2. Clone this repo
-3. Edit config.js with the details from you project at nhost.io
-4. `npm install`
-5. `npm start`
+### `yarn start`
 
-## Auth
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-- [x] register page
-- [x] activate account page
-- [x] sign in page
-- [x] new password page
-- [ ] forgot password
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-## Storage
+### `yarn test`
 
-- [ ] upload file
-- [ ] show file link (ex pdf)
-- [ ] show file as image
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## GraphQL
+### `yarn build`
 
-- [ ] Get data using query
-- [x] Get data using subscriptions
-- [x] Mutate data
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-# Install
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## 1. Create Nhost project
+### `yarn eject`
 
-## 2. Edit `src/config.js` with your Nhost project links
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-## 3. Add the todos table
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-  - Go to your **Hasura console**
-  - Click on the **Data** tab in the top menu
-  - Click on **SQL** in the left side menu
-  - Copy and paste the content from `db.sql` (located here in the repo) in the **Raw SQL textarea** in the Hasura Console.
-  - Check **Track this**
-  - Click **Run!**
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-## 4. Set permissions
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### TODOs permissions
+## Learn More
 
-  - Click on the `todos` table in the left side menu
-  - Click on **Permissions** in the top menu
-  - Enter a new role `user`
-  - Click on the **X** under **insert** to start setting permissions for `insert`
-    - Under **Row insert permissions**
-        - Select **Without any checks**
-      - Under **Column insert permissions**
-        - Check `todo`
-      - Under **Column presets**
-        - Select **Column name** `user_id`
-        - Select **Select preset type** `from session variable`
-        - Insert **column-name** `user-id` *(NOT underscore)*
-      - Click **Save Permissions**
-  - Click on the **X** under **select** to start setting permissions for `select`
-    - Under **Row select permissions**
-      - Select **With custom check**
-      - Create the following check: `{"user_id":{"_eq":"X-Hasura-User-Id"}}`
-    - Under **Column select permissons**
-      - Click the **Toggle All** button to select all columns
-    - Under **Aggregation queries permissions**
-      - Check **Allow role User to make aggregation queries**
-    - Click **Save Permissions**
-  - Click on the **X** under **update** to start setting permissions for `update`
-    - Under **Row update permissions**
-      - Select **With same custom checks as select**
-    - Under **Column update permissions**
-      - Check `todo` and `done`
-    - Click **Save Permissions**
-  - Click on the **X** under **delete** to start setting permissions for `delete`
-    - Under **Row delete permissions**
-      - Select **With same custom checks as select, update**
-    - Click **Save Permissions**
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### FILEs permissions
-  - Click on the `files` table in the left side menu
-  - Click on **Permissions** in the top menu
-  - Enter a new role `user`
-  - Click on the **X** under **insert** to start setting permissions for `insert`
-    - Under **Row insert permissions**
-        - Select **Without any checks**
-      - Under **Column insert permissions**
-        - Check `file_path` and `downloadable_url`
-      - Under **Column presets**
-        - Select **Column name** `user_id`
-        - Select **Select preset type** `from session variable`
-        - Insert **column-name** `user-id` *(NOT underscore)*
-      - Click **Save Permissions**
-  - Click on the **X** under **select** to start setting permissions for `select`
-    - Under **Row select permissions**
-      - Select **With custom check**
-      - Create the following check: `{"user_id":{"_eq":"X-Hasura-User-Id"}}`
-    - Under **Column select permissons**
-      - Click the **Toggle All** button to select all columns
-    - Under **Aggregation queries permissions**
-      - Check **Allow role User to make aggregation queries**
-    - Click **Save Permissions**
-  - Click on the **X** under **delete** to start setting permissions for `delete`
-    - Under **Row delete permissions**
-      - Select **With same custom checks as select, update**
-    - Click **Save Permissions**
-
-## 5. Create GraphQL relations
-
-  - Click on the **Data** tab in the top menu
-  - Click **Track All** next to "Untracked foreign-key relations"
-
-## 6. Start the app
-
-```
-npm install
-npm start
-```
-
-The app should appear in the browser.
-
-
-## 7. Register account
-
-
-## 8. Login
-
-
-## 9. Use the Todo app
+To learn React, check out the [React documentation](https://reactjs.org/).
