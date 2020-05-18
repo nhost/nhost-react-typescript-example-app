@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import BaseRouter from "./routers/BaseRouter";
 import { AuthContextProvider } from "./contexts/auth";
 import * as serviceWorker from "./serviceWorker";
