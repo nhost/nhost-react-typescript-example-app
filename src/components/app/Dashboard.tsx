@@ -1,5 +1,5 @@
 import * as React from "react";
-import { auth } from "../nhost";
+import Nav from "./Nav";
 
 export interface IDashboardProps {}
 
@@ -18,10 +18,8 @@ export default class Dashboard extends React.Component<
   public render() {
     return (
       <div>
+        <Nav />
         Dashboard
-        <div>
-          <button onClick={() => auth.logout()}>Logout</button>
-        </div>
       </div>
     );
   }

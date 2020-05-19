@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { auth } from "../nhost";
 import { AuthContext } from "../contexts/auth";
+import { ApolloProvider } from "react-apollo";
+import { createApolloClient } from "../apollo/client";
 import Login from "../components/Login";
 
 interface PrivateRouteState {
@@ -34,10 +36,20 @@ class PrivateRoute extends Component<any, PrivateRouteState> {
           }
 
           console.log("user logged in, render child");
-          return <div>{this.props.children}</div>;
-          // if (!this.client) {
-          //   this.client = generateApolloProviderClient();
-          // }
+          if (!this.client) {
+            const headers = {
+              Authorization: `Bearer ${auth.getJWTToken()}`,
+            };
+
+            console.log({ headers });
+
+            this.client = createApolloClient(headers);
+          }
+          return (
+            <ApolloProvider client={this.client}>
+              {this.props.children}
+            </ApolloProvider>
+          );
         }}
       </AuthContext.Consumer>
     );
