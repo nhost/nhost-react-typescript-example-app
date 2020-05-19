@@ -26,7 +26,6 @@
     "graphql": "^14.0.0",
     "graphql-tag": "^2.10.3",
     "react": "^16.13.1",
-    "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.7.2",
     "react-router-dom": "^5.2.0",
@@ -43,7 +42,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "apollo:generate": "apollo codegen:generate --target typescript --excludes=node_modules/* --includes=**/*.tsx --endpoint http://localhost:8080/v1/graphql --header \"x-hasura-admin-secret: hejsan\" --tagName=gql --passthroughCustomScalars --customScalarsPrefix gql_ --outputFlat src/generated"
+    "apollo:generate": "apollo codegen:generate --target typescript --excludes=node_modules/* --includes=\"src/**/*.{ts,tsx}\" --endpoint http://localhost:8080/v1/graphql --header \"x-hasura-admin-secret: hejsan\" --tagName=gql --passthroughCustomScalars --customScalarsPrefix gql_ --outputFlat src/generated"
   },
   "eslintConfig": {
     "extends": "react-app"

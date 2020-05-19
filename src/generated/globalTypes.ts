@@ -648,6 +648,18 @@ export interface todos_on_conflict {
 }
 
 /**
+ * input type for updating data in table "todos"
+ */
+export interface todos_set_input {
+  created_at?: gql_timestamptz | null;
+  done?: boolean | null;
+  id?: gql_uuid | null;
+  todo?: string | null;
+  updated_at?: gql_timestamptz | null;
+  user_id?: gql_uuid | null;
+}
+
+/**
  * Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'.
  */
 export interface users_bool_exp {

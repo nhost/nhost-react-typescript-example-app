@@ -6,21 +6,21 @@
 import { todos_insert_input } from "./globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: addTodo
+// GraphQL mutation operation: insertTodo
 // ====================================================
 
-export interface addTodo_insert_todos_one {
+export interface insertTodo_insert_todos_one {
   __typename: "todos";
   id: gql_uuid;
 }
 
-export interface addTodo {
+export interface insertTodo {
   /**
    * insert a single row into the table: "todos"
    */
-  insert_todos_one: addTodo_insert_todos_one | null;
+  insert_todos_one: insertTodo_insert_todos_one | null;
 }
 
-export interface addTodoVariables {
+export interface insertTodoVariables {
   todo: todos_insert_input;
 }

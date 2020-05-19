@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { auth } from "../nhost";
 import { AuthContext } from "../contexts/auth";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider } from "@apollo/react-hooks";
 import { createApolloClient } from "../apollo/client";
 import { Login } from "../components/Login";
 

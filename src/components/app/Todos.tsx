@@ -1,28 +1,44 @@
 import React, { useState } from "react";
 import { useSubscription, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import styled from "styled-components";
+
+import { S_GET_TODOS, UPDATE_TODO, DELETE_TODOS } from "./gql/Todos";
 import { s_getTodos, s_getTodosVariables } from "../../generated/s_getTodos";
+import { TodosForm } from "./TodosForm";
+import { IconButton, Button } from "@material-ui/core";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import { getTodos_todos } from "src/generated/getTodos";
+import { todos_constraint } from "src/generated/globalTypes";
 
-const S_GET_TODOS = gql`
-  subscription s_getTodos($limit: Int!) {
-    todos(limit: $limit) {
-      id
-      todo
-      done
-      updated_at
-      user {
-        id
-        display_name
-        avatar_url
-      }
-    }
+const DIV_TODOS = styled.div`
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(3rem, 1fr) [main-start] minmax(min-content, 60rem)
+    [main-end] minmax(3rem, 1fr) [full-end];
+  > .main-container {
+    grid-column: main;
   }
-`;
-
-const ADD_TODO = gql`
-  mutation addTodo($todo: todos_insert_input!) {
-    insert_todos_one(object: $todo) {
-      id
+  .todo-container {
+    margin-top: 3rem;
+  }
+  .todos-container {
+  }
+  .todo-item-container {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #c8c8c8;
+  }
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    .filter-buttons {
+      > * {
+        margin: 0 0.3rem;
+      }
     }
   }
 `;
@@ -30,7 +46,7 @@ const ADD_TODO = gql`
 export interface ITodosProps {}
 
 export function Todos(props: ITodosProps) {
-  const [todoInput, setTodoInput] = useState("");
+  const [filter, setFilter] = useState("all");
 
   const { loading, data } = useSubscription<s_getTodos, s_getTodosVariables>(
     S_GET_TODOS,
@@ -38,51 +54,130 @@ export function Todos(props: ITodosProps) {
       variables: { limit: 123 },
     }
   );
+  const [updateTodo] = useMutation(UPDATE_TODO);
+  const [deleteTodos] = useMutation(DELETE_TODOS);
 
-  const [
-    addTodo,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(ADD_TODO);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    let d;
-    d = await addTodo({
+  const toggleTodoItem = (todo: getTodos_todos) => {
+    updateTodo({
       variables: {
+        id: todo.id,
         todo: {
-          todo: todoInput,
+          done: !todo.done,
         },
       },
     });
-    console.log({ d });
-
-    setTodoInput("");
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const renderTodos = () => {
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+
+    if (!data || data.todos.length === 0) {
+      return <div>No todos</div>;
+    }
+
+    const { todos } = data;
+
+    let todos_left = 0;
+    todos.forEach((todo) => {
+      if (!todo.done) todos_left++;
+    });
+
+    let todos_filtered;
+    if (filter === "active") {
+      todos_filtered = todos.filter((todo) => {
+        return todo.done === false;
+      });
+    } else if (filter === "completed") {
+      todos_filtered = todos.filter((todo) => {
+        return todo.done === true;
+      });
+    } else {
+      // if (filter === "all") {
+      todos_filtered = todos;
+    }
+
+    return (
+      <div>
+        {todos_filtered.map((todo) => {
+          return (
+            <div key={todo.id} className="todo-item-container">
+              <div className="todo-check">
+                <IconButton
+                  onClick={() => {
+                    toggleTodoItem(todo);
+                  }}
+                >
+                  {todo.done ? (
+                    <CheckCircleOutlineIcon />
+                  ) : (
+                    <RadioButtonUncheckedIcon />
+                  )}
+                </IconButton>
+              </div>
+              <div className="todo-item">{todo.todo}</div>
+            </div>
+          );
+        })}
+
+        <div className="bottom">
+          <div className="items-left">{todos_left} items left</div>
+          <div className="filter-buttons">
+            <Button
+              onClick={() => {
+                setFilter("all");
+              }}
+            >
+              All
+            </Button>
+            <Button
+              onClick={() => {
+                setFilter("active");
+              }}
+            >
+              Active
+            </Button>
+            <Button
+              onClick={() => {
+                setFilter("completed");
+              }}
+            >
+              Completed
+            </Button>
+          </div>
+          <div className="">
+            <Button
+              onClick={() => {
+                deleteTodos({
+                  variables: {
+                    where: {
+                      done: {
+                        _eq: true,
+                      },
+                    },
+                  },
+                });
+              }}
+            >
+              Clear completed
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <div>
-      <div>
-        {data?.todos.map((todo) => {
-          return <div key={todo.id}>{todo.todo}</div>;
-        })}
+    <DIV_TODOS>
+      <div className="main-container">
+        <div className="todo-container">
+          <div>
+            <TodosForm />
+          </div>
+          <div className="todos-container">{renderTodos()}</div>
+        </div>
       </div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={todoInput}
-          onChange={(e) => {
-            setTodoInput(e.target.value);
-          }}
-        />
-        <button>Submit</button>
-      </form>
-      {mutationLoading && <p>Loading...</p>}
-      {mutationError && <p>Error :( Please try again</p>}
-    </div>
+    </DIV_TODOS>
   );
 }
