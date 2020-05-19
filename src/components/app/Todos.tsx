@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useSubscription, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { getTodos, getTodosVariables } from "../../generated/getTodos";
+import { s_getTodos, s_getTodosVariables } from "../../generated/s_getTodos";
 
-const GET_TODOS = gql`
-  query getTodos($limit: Int!) {
+const S_GET_TODOS = gql`
+  subscription s_getTodos($limit: Int!) {
     todos(limit: $limit) {
       id
       todo
@@ -32,41 +32,43 @@ export interface ITodosProps {}
 export function Todos(props: ITodosProps) {
   const [todoInput, setTodoInput] = useState("");
 
-  const { loading, data } = useQuery<getTodos, getTodosVariables>(GET_TODOS, {
-    variables: { limit: 123 },
-  });
-  const [addTodo] = useMutation(ADD_TODO);
+  const { loading, data } = useSubscription<s_getTodos, s_getTodosVariables>(
+    S_GET_TODOS,
+    {
+      variables: { limit: 123 },
+    }
+  );
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const [
+    addTodo,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(ADD_TODO);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let d;
-    try {
-      d = await addTodo({
-        variables: {
-          todo: {
-            todo: todoInput,
-          },
+    d = await addTodo({
+      variables: {
+        todo: {
+          todo: todoInput,
         },
-      });
-      console.log({ d });
-    } catch (error) {
-      console.log({ d });
-      console.log("error:");
-      return console.log(error);
-    }
-    console.log("handle form submit");
+      },
+    });
+    console.log({ d });
+
+    setTodoInput("");
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       <div>
         {data?.todos.map((todo) => {
-          return <div>{todo.todo}</div>;
+          return <div key={todo.id}>{todo.todo}</div>;
         })}
       </div>
       <form onSubmit={handleSubmit}>
@@ -79,6 +81,8 @@ export function Todos(props: ITodosProps) {
         />
         <button>Submit</button>
       </form>
+      {mutationLoading && <p>Loading...</p>}
+      {mutationError && <p>Error :( Please try again</p>}
     </div>
   );
 }

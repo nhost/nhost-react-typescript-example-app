@@ -3,7 +3,7 @@ import { auth } from "../nhost";
 import { AuthContext } from "../contexts/auth";
 import { ApolloProvider } from "react-apollo";
 import { createApolloClient } from "../apollo/client";
-import Login from "../components/Login";
+import { Login } from "../components/Login";
 
 interface PrivateRouteState {
   client: any;

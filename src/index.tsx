@@ -3,12 +3,20 @@ import ReactDOM from "react-dom";
 import BaseRouter from "./routers/BaseRouter";
 import { AuthContextProvider } from "./contexts/auth";
 import * as serviceWorker from "./serviceWorker";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/styles";
+
+import theme from "./style/theme";
+import "./style/style.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthContextProvider>
-      <BaseRouter />
-    </AuthContextProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthContextProvider>
+        <BaseRouter />
+      </AuthContextProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

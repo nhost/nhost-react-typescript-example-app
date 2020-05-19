@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Register from "../components/Register";
-import Login from "../components/Login";
+import { Login } from "../components/Login";
 import PrivateRoute from "./PrivateRouter";
 import AppRouter from "./AppRouter";
 

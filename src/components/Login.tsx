@@ -1,155 +1,194 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import * as config from "../config";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+// import CircularProgress from "@material-ui/core/CircularProgress";
+import Avatar from "@material-ui/core/Avatar";
+import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
-import { auth } from "../nhost";
+// import { auth } from "../nhost";
+import github from "../images/github.png";
+import google from "../images/google.png";
+import facebook from "../images/facebook.png";
 
-const S_LOGIN = styled.div``;
-
-interface LoginState {
-  email: string;
-  password: string;
-  mfa_ticket: string;
-  mfa_code: string;
-}
-
-class Login extends Component<any, LoginState> {
-  constructor(props: any) {
-    super(props);
-
-    this.state = {
-      email: "elitasson@gmail.com",
-      password: "hejsan",
-      mfa_ticket: "",
-      mfa_code: "",
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleMFALogin = this.handleMFALogin.bind(this);
+const S_LOGIN = styled.div`
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(10px, 1fr) [main-start] minmax(min-content, 440px)
+    [main-end] minmax(10px, 1fr) [full-end];
+  .main-container {
+    grid-column: main;
+    padding-top: 4rem;
   }
-
-  async handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    console.log("handle submit plzd");
-
-    console.log(this.state);
-
-    const { email, password } = this.state;
-
-    let login_res;
-    try {
-      login_res = await auth.login(email, password);
-    } catch (error) {
-      console.error("error logging in");
-      console.error(error);
-      return;
+  .top-center {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .signup-form-container {
+    display: grid;
+    grid-row-gap: 1rem;
+  }
+  .submit-button {
+    display: flex;
+    .loading {
+      margin-right: 1rem;
     }
-
-    console.log({ login_res });
-
-    // if ("mfa" in login_res && login_res.mfa) {
-    //   return this.setState({
-    //     mfa_ticket: login_res.ticket,
-    //   });
-    // }
-
-    console.log("login OK");
-    this.props.history.push("/");
   }
+  .or-signup-with {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+  .auth-providers {
+    a {
+      color: #000;
+    }
+    .provider-container {
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      border: 1px solid #b1b1b1;
+      line-height: 0;
+      margin-bottom: 1rem;
+      &:hover {
+        background: #eeeeee;
+      }
+      .logo {
+        padding: 1rem;
+        border-right: 1px solid #b1b1b1;
+        img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+      .text {
+        flex: 1;
+        margin-left: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        font-size: 15px;
+      }
+    }
+  }
+  .error-container {
+    margin-top: 1rem;
+    background-color: #ffbdbf;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .bottom-info {
+    margin-top: 1rem;
+  }
+`;
 
-  // async handleMFALogin(e) {
-  //   e.preventDefault();
+export interface ILoginProps {}
 
-  //   const { mfa_ticket, mfa_code } = this.state;
+export function Login(props: ILoginProps) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [MFATicket, setMFATicket] = useState("");
+  const [MFACode, setMFACode] = useState("");
 
-  //   try {
-  //     await auth.totp(mfa_ticket, mfa_code);
-  //   } catch (error) {
-  //     alert("unable to MFA login");
-  //   }
-  //   console.log("login OK");
-  //   this.props.history.push("/");
-  // }
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
-  // loginAnonymously() {
-  //   auth.loginAnonymously();
-  // }
-
-  renderLogin() {
-    const { email, password, mfa_ticket } = this.state;
-    if (mfa_ticket) return;
-    return (
-      <div>
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              autoFocus
-              placeholder="email"
-              value={email}
-              onChange={(e) => {
-                this.setState({
-                  email: e.target.value,
-                });
-              }}
-            />
-            <input
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={(e) => {
-                this.setState({
-                  password: e.target.value,
-                });
-              }}
-            />
-            <button>Login</button>
-          </form>
+  return (
+    <S_LOGIN>
+      <div className="main-container">
+        <div className="top-center">
+          <Avatar>
+            <LockOutlinedIcon />
+          </Avatar>
         </div>
-        {/* <div>
-          <button onClick={this.loginAnonymously}>Login Anonymously</button>
-        </div> */}
-        <div>
-          <a href={`http://localhost:3000/auth/providers/github`}>
-            Login with Github
+        <div className="top-center">
+          <Typography component="h1" variant="h5">
+            Nhost Example Sign In
+          </Typography>
+        </div>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div className="signup-form-container">
+            <TextField
+              autoFocus
+              autoComplete="email"
+              type="email"
+              name="email"
+              variant="outlined"
+              required
+              fullWidth
+              id="email"
+              label="E-mail"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+
+            <TextField
+              autoComplete="password"
+              type="password"
+              name="password"
+              variant="outlined"
+              required
+              fullWidth
+              id="password"
+              label="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            />
+
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              disabled={false}
+              className="submit-button"
+            >
+              {/* {this.state.loading && (
+                <CircularProgress className="loading" size={20} />
+              )} */}
+              Sign in
+            </Button>
+          </div>
+        </form>
+        {/* {this.state.error && (
+          <div className="error-container">{this.state.error_msg}</div>
+        )} */}
+        <div className="or-signup-with">OR SIGN IN WITH</div>
+
+        <div className="or-signup-with">OR SIGN IN WITH</div>
+        <div className="auth-providers">
+          <a href={`${config.BACKEND_ENDPOINT}/auth/github`}>
+            <div className="provider-container">
+              <div className="logo">
+                <img src={github} alt="github" />
+              </div>
+              <div className="text">Sign in with Github</div>
+            </div>
+          </a>
+          <a href={`${config.BACKEND_ENDPOINT}/auth/google`}>
+            <div className="provider-container">
+              <div className="logo">
+                <img src={google} alt="google" />
+              </div>
+              <div className="text">Sign in with Google</div>
+            </div>
+          </a>
+          <a href={`${config.BACKEND_ENDPOINT}/auth/facebook`}>
+            <div className="provider-container">
+              <div className="logo">
+                <img src={facebook} alt="facebook" />
+              </div>
+              <div className="text">Sign in with Facebook</div>
+            </div>
           </a>
         </div>
-      </div>
-    );
-  }
-
-  // renderMFALogin() {
-  //   const { mfa_ticket, mfa_code } = this.state;
-
-  //   if (!mfa_ticket) return;
-
-  //   return (
-  //     <div>
-  //       <form onSubmit={this.handleMFALogin}>
-  //         <input
-  //           type="text"
-  //           value={mfa_code}
-  //           onChange={(e) => this.setState({ mfa_code: e.target.value })}
-  //         />
-  //         <button>mfa login</button>
-  //       </form>
-  //     </div>
-  //   );
-  // }
-
-  render() {
-    console.log(this.state);
-
-    return (
-      <S_LOGIN>
-        <div>
-          <div>Login</div>
-          {this.renderLogin()}
-          {/* {this.renderMFALogin()} */}
+        <div className="bottom-info">
+          <Link to="/signup">Don't have an account? Sign Up!</Link>
         </div>
-      </S_LOGIN>
-    );
-  }
+      </div>
+    </S_LOGIN>
+  );
 }
-
-export default withRouter(Login);
