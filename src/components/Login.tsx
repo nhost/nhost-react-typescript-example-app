@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import * as config from "../config";
+
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-// import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
-// import { auth } from "../nhost";
+
+import * as config from "../config";
 import github from "../images/github.png";
 import google from "../images/google.png";
 import facebook from "../images/facebook.png";
+import { auth } from "src/nhost";
 
 const S_LOGIN = styled.div`
   display: grid;
@@ -88,13 +90,39 @@ const S_LOGIN = styled.div`
 export interface ILoginProps {}
 
 export function Login(props: ILoginProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [MFATicket, setMFATicket] = useState("");
-  const [MFACode, setMFACode] = useState("");
+  const [email, setEmail] = useState("test@ok.se");
+  const [password, setPassword] = useState("hejsan");
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [error, setError] = useState({
+    error: false,
+    message: "",
+  });
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
+    try {
+      await auth.login(email, password);
+    } catch (error) {
+      setLoading(false);
+
+      // get error message from response, if available
+      let error_message;
+      try {
+        error_message = error.response.data.message;
+      } catch (error) {
+        error_message = "Unable to login";
+      }
+
+      return setError({
+        error: true,
+        message: error_message,
+      });
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -107,10 +135,10 @@ export function Login(props: ILoginProps) {
         </div>
         <div className="top-center">
           <Typography component="h1" variant="h5">
-            Nhost Example Sign In
+            Nhost Example Login
           </Typography>
         </div>
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={onSubmit}>
           <div className="signup-form-container">
             <TextField
               autoFocus
@@ -120,10 +148,9 @@ export function Login(props: ILoginProps) {
               variant="outlined"
               required
               fullWidth
-              id="email"
               label="E-mail"
-              onChange={(e) => setEmail(e.target.value)}
               value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
             <TextField
@@ -133,30 +160,25 @@ export function Login(props: ILoginProps) {
               variant="outlined"
               required
               fullWidth
-              id="password"
               label="Password"
-              onChange={(e) => setPassword(e.target.value)}
               value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             <Button
               variant="contained"
               color="primary"
               type="submit"
-              disabled={false}
+              disabled={loading}
               className="submit-button"
             >
-              {/* {this.state.loading && (
-                <CircularProgress className="loading" size={20} />
-              )} */}
+              {loading && <CircularProgress className="loading" size={20} />}
               Sign in
             </Button>
           </div>
         </form>
-        {/* {this.state.error && (
-          <div className="error-container">{this.state.error_msg}</div>
-        )} */}
-        <div className="or-signup-with">OR SIGN IN WITH</div>
+        {error.error && <div className="error-container">{error.message}</div>}
+        {/* <div className="or-signup-with">OR SIGN IN WITH</div> */}
 
         <div className="or-signup-with">OR SIGN IN WITH</div>
         <div className="auth-providers">
@@ -186,7 +208,7 @@ export function Login(props: ILoginProps) {
           </a>
         </div>
         <div className="bottom-info">
-          <Link to="/signup">Don't have an account? Sign Up!</Link>
+          <Link to="/register">Don't have an account? Sign Up!</Link>
         </div>
       </div>
     </S_LOGIN>
