@@ -10,6 +10,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { getTodos_todos } from "src/generated/getTodos";
 import { todos_constraint } from "src/generated/globalTypes";
+import { Header } from "./Header";
 
 const DIV_TODOS = styled.div`
   display: grid;
@@ -171,6 +172,7 @@ export function Todos(props: ITodosProps) {
   return (
     <DIV_TODOS>
       <div className="main-container">
+        <Header />
         <div className="todo-container">
           <div>
             <TodosForm />
