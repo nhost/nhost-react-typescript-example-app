@@ -11,15 +11,9 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { getTodos_todos } from "src/generated/getTodos";
 import { todos_constraint } from "src/generated/globalTypes";
 import { Header } from "./Header";
+import { MainContainer } from "./MainContainer";
 
 const DIV_TODOS = styled.div`
-  display: grid;
-  grid-template-columns:
-    [full-start] minmax(3rem, 1fr) [main-start] minmax(min-content, 60rem)
-    [main-end] minmax(3rem, 1fr) [full-end];
-  > .main-container {
-    grid-column: main;
-  }
   .todo-container {
     margin-top: 3rem;
   }
@@ -170,8 +164,8 @@ export function Todos(props: ITodosProps) {
   };
 
   return (
-    <DIV_TODOS>
-      <div className="main-container">
+    <MainContainer>
+      <DIV_TODOS>
         <Header />
         <div className="todo-container">
           <div>
@@ -179,7 +173,7 @@ export function Todos(props: ITodosProps) {
           </div>
           <div className="todos-container">{renderTodos()}</div>
         </div>
-      </div>
-    </DIV_TODOS>
+      </DIV_TODOS>
+    </MainContainer>
   );
 }

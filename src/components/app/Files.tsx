@@ -1,23 +1,21 @@
-import * as React from "react";
-import Nav from "./Nav";
+import React, { useState } from "react";
+import { Header } from "./Header";
+import { MainContainer } from "./MainContainer";
+import styled from "styled-components";
+
+const FilesContainer = styled.div`
+  .files-container {
+    margin-top: 3rem;
+  }
+`;
 
 export interface IFilesProps {}
 
-export interface IFilesState {}
-
-export default class Files extends React.Component<IFilesProps, IFilesState> {
-  constructor(props: IFilesProps) {
-    super(props);
-
-    this.state = {};
-  }
-
-  public render() {
-    return (
-      <div>
-        <Nav />
-        <div>Files</div>
-      </div>
-    );
-  }
+export function Files(props: IFilesProps) {
+  return (
+    <MainContainer>
+      <Header />
+      <div className="files-container">Files</div>
+    </MainContainer>
+  );
 }

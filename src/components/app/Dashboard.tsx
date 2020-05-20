@@ -1,26 +1,21 @@
-import * as React from "react";
-import Nav from "./Nav";
+import React, { useState } from "react";
+import { Header } from "./Header";
+import { MainContainer } from "./MainContainer";
+import styled from "styled-components";
+
+const DashboardContainer = styled.div`
+  .dashboard-container {
+    margin-top: 3rem;
+  }
+`;
 
 export interface IDashboardProps {}
 
-export interface IDashboardState {}
-
-export default class Dashboard extends React.Component<
-  IDashboardProps,
-  IDashboardState
-> {
-  constructor(props: IDashboardProps) {
-    super(props);
-
-    this.state = {};
-  }
-
-  public render() {
-    return (
-      <div>
-        <Nav />
-        Dashboard
-      </div>
-    );
-  }
+export function Dashboard(props: IDashboardProps) {
+  return (
+    <MainContainer>
+      <Header />
+      <div className="dashboard-container">Dashboard</div>
+    </MainContainer>
+  );
 }
