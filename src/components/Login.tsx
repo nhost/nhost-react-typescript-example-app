@@ -182,7 +182,7 @@ export function Login(props: ILoginProps) {
 
         <div className="or-signup-with">OR SIGN IN WITH</div>
         <div className="auth-providers">
-          <a href={`${config.BACKEND_ENDPOINT}/auth/github`}>
+          <a href={`${config.BACKEND_ENDPOINT}/auth/providers/github`}>
             <div className="provider-container">
               <div className="logo">
                 <img src={github} alt="github" />
@@ -190,7 +190,7 @@ export function Login(props: ILoginProps) {
               <div className="text">Sign in with Github</div>
             </div>
           </a>
-          <a href={`${config.BACKEND_ENDPOINT}/auth/google`}>
+          <a href={`${config.BACKEND_ENDPOINT}/auth/providers/google`}>
             <div className="provider-container">
               <div className="logo">
                 <img src={google} alt="google" />
@@ -198,7 +198,7 @@ export function Login(props: ILoginProps) {
               <div className="text">Sign in with Google</div>
             </div>
           </a>
-          <a href={`${config.BACKEND_ENDPOINT}/auth/facebook`}>
+          <a href={`${config.BACKEND_ENDPOINT}/auth/providers/facebook`}>
             <div className="provider-container">
               <div className="logo">
                 <img src={facebook} alt="facebook" />
