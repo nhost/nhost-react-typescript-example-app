@@ -23,9 +23,6 @@ export class AuthContextProvider extends Component<
 
   componentDidMount() {
     auth.onAuthStateChanged((data: any) => {
-      console.log("in Auth context, onAuthStateChanged with data:");
-      console.log({ data });
-
       this.setState({
         signed_in: data,
       });

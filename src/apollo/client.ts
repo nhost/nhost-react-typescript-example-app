@@ -18,9 +18,6 @@ export function createApolloClient(apollo_headers: any = {}) {
   const uri = HASURA_GQE_ENDPOINT_HTTP;
   // const wsurl = HASURA_GQE_ENDPOINT_WS;
 
-  console.log("apollo headers:");
-  console.log({ apollo_headers });
-
   const wsUri = uri.replace(
     /^https?/,
     process.env.NODE_ENV === "development" ? "ws" : "wss"

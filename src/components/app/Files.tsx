@@ -68,10 +68,12 @@ export function Files(props: IFilesProps) {
     const file_res = await storage.put(file_path, fileData, null, (d: any) => {
       setUploadCompleted((d.loaded / d.total) * 100);
     });
+
+    console.log(`File uploaded:`);
+    console.log({ file_res });
+
     setUploadState("");
     fileInput.current.value = "";
-
-    console.log({ file_res });
 
     const downloadable_url = `${config.BACKEND_ENDPOINT}/storage/o${file_path}`;
     await insertFile({
@@ -89,49 +91,54 @@ export function Files(props: IFilesProps) {
       return <div>Loading...</div>;
     }
 
-    if (!data || !data.files) {
+    if (!data || data.files.length === 0) {
       return <div>No files.</div>;
     }
 
     const { files } = data;
 
-    return files.map((file) => {
-      return (
-        <TableRow key={file.id}>
-          <TableCell component="th" scope="row">
-            <a
-              href={file.downloadable_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {file.file_path}
-            </a>
-          </TableCell>
-          <TableCell>
-            <Button
-              onClick={() => {
-                console.log("remove file");
-
-                storage.delete(file.file_path);
-                deleteFile({
-                  variables: {
-                    where: {
-                      id: {
-                        _eq: file.id,
-                      },
-                    },
-                  },
-                });
-              }}
-            >
-              Remove
-            </Button>
-          </TableCell>
-        </TableRow>
-      );
-    });
-
-    // return ()
+    return (
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow></TableRow>
+        </TableHead>
+        <TableBody>
+          {files.map((file) => {
+            return (
+              <TableRow key={file.id}>
+                <TableCell component="th" scope="row">
+                  <a
+                    href={file.downloadable_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {file.file_path}
+                  </a>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() => {
+                      storage.delete(file.file_path);
+                      deleteFile({
+                        variables: {
+                          where: {
+                            id: {
+                              _eq: file.id,
+                            },
+                          },
+                        },
+                      });
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    );
   };
 
   return (
@@ -172,14 +179,7 @@ export function Files(props: IFilesProps) {
             </div>
           )}
         </div>
-        <div>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow></TableRow>
-            </TableHead>
-            <TableBody>{renderFiles()}</TableBody>
-          </Table>
-        </div>
+        <div>{renderFiles()}</div>
       </FilesContainer>
     </MainContainer>
   );
