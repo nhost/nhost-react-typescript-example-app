@@ -7,6 +7,6 @@ const config = {
 nhost.initializeApp(config);
 
 const auth = nhost.auth();
-// const storage = nhost.storage();
+const storage = nhost.storage();
 
-export { auth };
+export { auth, storage };

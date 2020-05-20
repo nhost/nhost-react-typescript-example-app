@@ -9,7 +9,6 @@ import { IconButton, Button } from "@material-ui/core";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { getTodos_todos } from "src/generated/getTodos";
-import { todos_constraint } from "src/generated/globalTypes";
 import { Header } from "./Header";
 import { MainContainer } from "./MainContainer";
 

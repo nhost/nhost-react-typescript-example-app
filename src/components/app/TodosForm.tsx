@@ -10,14 +10,13 @@ export function TodosForm(props: ITodosFormProps) {
 
   const [
     addTodo,
-    { loading: mutationLoading, error: mutationError },
+    // { loading: mutationLoading, error: mutationError },
   ] = useMutation(INSERT_TODO);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let d;
-    d = await addTodo({
+    await addTodo({
       variables: {
         todo: {
           todo: todoInput,

@@ -7,11 +7,6 @@ export const GET_TODOS = gql`
       todo
       done
       updated_at
-      user {
-        id
-        display_name
-        avatar_url
-      }
     }
   }
 `;
@@ -23,11 +18,6 @@ export const S_GET_TODOS = gql`
       todo
       done
       updated_at
-      user {
-        id
-        display_name
-        avatar_url
-      }
     }
   }
 `;
