@@ -94,8 +94,8 @@ export interface IRegisterProps {}
 export function Register(props: IRegisterProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("elitasson@gmail.com");
-  const [password, setPassword] = useState("hejsan");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [marketing, setMarketing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({

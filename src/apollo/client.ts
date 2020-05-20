@@ -6,17 +6,10 @@ import { createHttpLink } from "apollo-link-http";
 import { from, split } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
 import { OperationDefinitionNode } from "graphql";
-
-// import * as config from '../'
-
-// import { HASURA_GQE_ENDPOINT_WS, HASURA_GQE_ENDPOINT_HTTP } from "../config";
-
-const HASURA_GQE_ENDPOINT_HTTP = "http://localhost:8080/v1/graphql";
-// const HASURA_GQE_ENDPOINT_WS = "ws://localhost:8080/v1/graphql";
+import * as config from "../config";
 
 export function createApolloClient(apollo_headers: any = {}) {
-  const uri = HASURA_GQE_ENDPOINT_HTTP;
-  // const wsurl = HASURA_GQE_ENDPOINT_WS;
+  const uri = config.GRAPHQL_ENDPOINT;
 
   const wsUri = uri.replace(
     /^https?/,

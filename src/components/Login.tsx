@@ -90,8 +90,8 @@ const S_LOGIN = styled.div`
 export interface ILoginProps {}
 
 export function Login(props: ILoginProps) {
-  const [email, setEmail] = useState("elitasson@gmail.com");
-  const [password, setPassword] = useState("hejsan");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState({

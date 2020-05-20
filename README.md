@@ -10,7 +10,7 @@
 4. `npm install`
 5. `npm start`
 
-> If you have trouble, it might be because you block third party cookies. Either use the same frontend and backend with the same domain, or enable 3rd party cookies in your browser for \*.nhost.app.
+> If you have trouble with auth/storage, it might be because you block third party cookies. Either use the same frontend and backend with the same domain, or enable 3rd party cookies in your browser for \*.nhost.app.
 
 ## What's in the example app?
 
@@ -33,3 +33,11 @@
 - Upload file
 - Read file
 - Delete file
+
+### Apollo GrahpQL Codegen and Autocomplete
+
+Edit `apollo.config.js` and `package.json` (`apollo:generate`). The only thing you need to edit is `endpoint` and `header` (`x-hasura-admin-secret`).
+
+Once the two files are correctly configured you can auto generate type definitions from GraphQL using:
+
+`yarn apollo:codegen`
