@@ -2,8 +2,20 @@ import React, { useState, useRef } from "react";
 import { Header } from "./Header";
 import { MainContainer } from "./MainContainer";
 import styled from "styled-components";
-import { LinearProgress, Button } from "@material-ui/core";
+import {
+  LinearProgress,
+  Button,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableCell,
+} from "@material-ui/core";
 import { storage } from "../../nhost";
+import { useMutation, useSubscription } from "@apollo/react-hooks";
+import { INSERT_FILE, S_GET_FILES, DELETE_FILES } from "./gql/Files";
+import { s_getFiles, s_getFilesVariables } from "../../generated/s_getFiles";
+import * as config from "../../config";
 
 const FilesContainer = styled.div`
   margin-top: 3rem;
@@ -30,24 +42,96 @@ export function Files(props: IFilesProps) {
   const [uploadState, setUploadState] = useState("");
   const [uploadCompleted, setUploadCompleted] = useState(0);
 
+  const { loading, data } = useSubscription<s_getFiles, s_getFilesVariables>(
+    S_GET_FILES,
+    {
+      variables: { limit: 40 },
+    }
+  );
+
+  const [
+    insertFile,
+    // { loading: mutationLoading, error: mutationError },
+  ] = useMutation(INSERT_FILE);
+  const [
+    deleteFile,
+    // { loading: mutationLoading, error: mutationError },
+  ] = useMutation(DELETE_FILES);
+
   const handleSubmit = async () => {
     if (!fileData || !fileInput.current) {
       return console.log("No file selected");
     }
 
     setUploadState("UPLOADING");
-    const file_res = await storage.put(
-      "/public/test.png",
-      fileData,
-      null,
-      (d: any) => {
-        setUploadCompleted((d.loaded / d.total) * 100);
-      }
-    );
+    const file_path = "/public/test.png";
+    const file_res = await storage.put(file_path, fileData, null, (d: any) => {
+      setUploadCompleted((d.loaded / d.total) * 100);
+    });
     setUploadState("");
     fileInput.current.value = "";
 
     console.log({ file_res });
+
+    const downloadable_url = `${config.BACKEND_ENDPOINT}/storage/o${file_path}`;
+    await insertFile({
+      variables: {
+        file: {
+          file_path,
+          downloadable_url,
+        },
+      },
+    });
+  };
+
+  const renderFiles = () => {
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+
+    if (!data || !data.files) {
+      return <div>No files.</div>;
+    }
+
+    const { files } = data;
+
+    return files.map((file) => {
+      return (
+        <TableRow key={file.id}>
+          <TableCell component="th" scope="row">
+            <a
+              href={file.downloadable_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {file.file_path}
+            </a>
+          </TableCell>
+          <TableCell>
+            <Button
+              onClick={() => {
+                console.log("remove file");
+
+                storage.delete(file.file_path);
+                deleteFile({
+                  variables: {
+                    where: {
+                      id: {
+                        _eq: file.id,
+                      },
+                    },
+                  },
+                });
+              }}
+            >
+              Remove
+            </Button>
+          </TableCell>
+        </TableRow>
+      );
+    });
+
+    // return ()
   };
 
   return (
@@ -88,7 +172,14 @@ export function Files(props: IFilesProps) {
             </div>
           )}
         </div>
-        Files
+        <div>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow></TableRow>
+            </TableHead>
+            <TableBody>{renderFiles()}</TableBody>
+          </Table>
+        </div>
       </FilesContainer>
     </MainContainer>
   );
