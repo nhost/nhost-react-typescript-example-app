@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Dashboard } from "../components/app/Dashboard";
 import { Todos } from "../components/app/Todos";
 import { Files } from "../components/app/Files";
+import { Settings } from "../components/app/Settings";
 import { MainContainer } from "src/components/app/MainContainer";
 
 class RouterComponent extends Component {
@@ -21,6 +22,11 @@ class RouterComponent extends Component {
               exact
               path="/files"
               render={(props) => <Files {...props} />}
+            />
+            <Route
+              exact
+              path="/settings"
+              render={(props) => <Settings {...props} />}
             />
           </Switch>
         </MainContainer>

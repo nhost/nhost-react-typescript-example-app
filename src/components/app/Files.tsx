@@ -32,16 +32,32 @@ const FilesContainer = styled.div`
   .input-file-container {
     padding: 3rem 0;
     border-bottom: 1px solid #ccc6c6;
+
+    .input-file-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .icon {
+    cursor: pointer;
   }
 `;
 
-export interface IFilesProps {}
+export function FilesList() {
+  const { loading, data } = useSubscription<s_getFiles, s_getFilesVariables>(
+    S_GET_FILES,
+    {
+      variables: { limit: 40 },
+    }
+  );
 
-export function Files(props: IFilesProps) {
-  const fileInput = useRef<HTMLInputElement>(null);
-  const [fileData, setFileData] = useState<File | null>();
-  const [uploadState, setUploadState] = useState("");
-  const [uploadCompleted, setUploadCompleted] = useState(0);
+  const [
+    deleteFile,
+    // { loading: mutationLoading, error: mutationError },
+  ] = useMutation(DELETE_FILES);
+
   const [forceUpdateValue, forceUpdate] = React.useState(0);
 
   // rerender UI every 5 sec to update 'created at' column
@@ -53,21 +69,91 @@ export function Files(props: IFilesProps) {
     return () => clearInterval(interval);
   }, [forceUpdateValue]);
 
-  const { loading, data } = useSubscription<s_getFiles, s_getFilesVariables>(
-    S_GET_FILES,
-    {
-      variables: { limit: 40 },
-    }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data || data.files.length === 0) {
+    return <div>No files.</div>;
+  }
+
+  const { files } = data;
+
+  return (
+    <Table aria-label="simple table">
+      <TableHead>
+        <TableRow>
+          <TableCell>Name</TableCell>
+          <TableCell>Created</TableCell>
+          <TableCell></TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {files.map((file) => {
+          return (
+            <TableRow key={file.id}>
+              <TableCell component="th" scope="row">
+                <a
+                  href={file.downloadable_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {file.file_path}
+                </a>
+              </TableCell>
+              <TableCell>
+                {formatDistanceToNowStrict(new Date(file.created_at), {
+                  addSuffix: true,
+                })}
+              </TableCell>
+              <TableCell>
+                <DynamicFeedIcon
+                  className="icon"
+                  onClick={async () => {
+                    const metadata = await storage.getMetadata(file.file_path);
+                    console.log({ metadata });
+                    alert("check logs for metadta ");
+                  }}
+                />
+              </TableCell>
+              <TableCell>
+                <Button
+                  onClick={() => {
+                    storage.delete(file.file_path);
+                    deleteFile({
+                      variables: {
+                        where: {
+                          id: {
+                            _eq: file.id,
+                          },
+                        },
+                      },
+                    });
+                  }}
+                >
+                  Remove
+                </Button>
+              </TableCell>
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
   );
+}
+
+export interface IFilesProps {}
+
+export function Files(props: IFilesProps) {
+  const fileInput = useRef<HTMLInputElement>(null);
+  const [fileData, setFileData] = useState<File | null>();
+  const [uploadState, setUploadState] = useState("");
+  const [uploadCompleted, setUploadCompleted] = useState(0);
 
   const [
     insertFile,
     // { loading: mutationLoading, error: mutationError },
   ] = useMutation(INSERT_FILE);
-  const [
-    deleteFile,
-    // { loading: mutationLoading, error: mutationError },
-  ] = useMutation(DELETE_FILES);
 
   const handleSubmit = async () => {
     if (!fileData || !fileInput.current) {
@@ -97,91 +183,16 @@ export function Files(props: IFilesProps) {
     });
   };
 
-  const renderFiles = () => {
-    if (loading) {
-      return <div>Loading...</div>;
-    }
-
-    if (!data || data.files.length === 0) {
-      return <div>No files.</div>;
-    }
-
-    const { files } = data;
-
-    return (
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Created</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {files.map((file) => {
-            return (
-              <TableRow key={file.id}>
-                <TableCell component="th" scope="row">
-                  <a
-                    href={file.downloadable_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {file.file_path}
-                  </a>
-                </TableCell>
-                <TableCell>
-                  {formatDistanceToNowStrict(new Date(file.created_at), {
-                    addSuffix: true,
-                  })}
-                </TableCell>
-                <TableCell>
-                  <DynamicFeedIcon
-                    onClick={async () => {
-                      const metadata = await storage.getMetadata(
-                        file.file_path
-                      );
-                      console.log({ metadata });
-                      alert("check logs for metadta ");
-                    }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Button
-                    onClick={() => {
-                      storage.delete(file.file_path);
-                      deleteFile({
-                        variables: {
-                          where: {
-                            id: {
-                              _eq: file.id,
-                            },
-                          },
-                        },
-                      });
-                    }}
-                  >
-                    Remove
-                  </Button>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    );
-  };
-
   return (
     <FilesContainer>
       <div className="input-file-container">
-        <div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}
-          >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
+          <div className="input-file-header">
             <input
               type="file"
               onChange={(e) => {
@@ -210,8 +221,8 @@ export function Files(props: IFilesProps) {
             >
               Get /public/ metadata
             </Button>
-          </form>
-        </div>
+          </div>
+        </form>
 
         {uploadState === "UPLOADING" && (
           <div className="uploading-progress">
@@ -220,7 +231,9 @@ export function Files(props: IFilesProps) {
           </div>
         )}
       </div>
-      <div>{renderFiles()}</div>
+      <div>
+        <FilesList />
+      </div>
     </FilesContainer>
   );
 }
