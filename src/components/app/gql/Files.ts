@@ -13,7 +13,7 @@ export const GET_FILES = gql`
 
 export const S_GET_FILES = gql`
   subscription s_getFiles($limit: Int!) {
-    files(limit: $limit) {
+    files(limit: $limit, order_by: { created_at: desc }) {
       id
       created_at
       file_path

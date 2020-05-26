@@ -8,7 +8,7 @@
 2. Clone this repo.
 3. Copy `config-example.yaml` to `config.yaml` in `hasura/`.
 4. Update `config.yaml` with `endpoint` and `admin_secret` in `hasura/`.
-5. Apply migrations and metadata: `cd hasura; hasura migrate apply; hausra metadata apply;`.
+5. Apply migrations and metadata: `cd hasura; hasura migrate apply; hasura metadata apply;`.
 6. Copy `config-example.ts` to `config.ts` in `src/`.
 7. Update `config.ts` with the details from you project at Nhost.
 8. `yarn install`.

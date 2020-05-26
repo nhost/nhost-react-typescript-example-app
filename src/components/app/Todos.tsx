@@ -9,7 +9,6 @@ import { IconButton, Button } from "@material-ui/core";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { getTodos_todos } from "../../generated/getTodos";
-import { Header } from "./Header";
 import { MainContainer } from "./MainContainer";
 
 const DIV_TODOS = styled.div`
@@ -92,6 +91,7 @@ export function Todos(props: ITodosProps) {
       todos_filtered = todos;
     }
 
+    console.log("render todos");
     return (
       <div>
         {todos_filtered.map((todo) => {
@@ -163,16 +163,13 @@ export function Todos(props: ITodosProps) {
   };
 
   return (
-    <MainContainer>
-      <DIV_TODOS>
-        <Header />
-        <div className="todo-container">
-          <div>
-            <TodosForm />
-          </div>
-          <div className="todos-container">{renderTodos()}</div>
+    <DIV_TODOS>
+      <div className="todo-container">
+        <div>
+          <TodosForm />
         </div>
-      </DIV_TODOS>
-    </MainContainer>
+        <div className="todos-container">{renderTodos()}</div>
+      </div>
+    </DIV_TODOS>
   );
 }

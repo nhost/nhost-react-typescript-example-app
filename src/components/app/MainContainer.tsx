@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
+import { Header } from "./Header";
 
 const MainContainerContainer = styled.div`
   display: grid;
@@ -16,9 +17,14 @@ export interface IMainContainerProps {
 }
 
 export function MainContainer(props: IMainContainerProps) {
+  console.log("rerender maincontainer");
+
   return (
     <MainContainerContainer>
-      <div className="main-container">{props.children}</div>
+      <div className="main-container">
+        <Header />
+        <div>{props.children}</div>
+      </div>
     </MainContainerContainer>
   );
 }

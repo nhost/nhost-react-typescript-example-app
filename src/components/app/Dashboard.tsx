@@ -11,9 +11,8 @@ export interface IDashboardProps {}
 
 export function Dashboard(props: IDashboardProps) {
   return (
-    <MainContainer>
-      <Header />
-      <DashboardContainer>Dashboard</DashboardContainer>
-    </MainContainer>
+    <DashboardContainer>
+      Welcome to Nhost's example app in React
+    </DashboardContainer>
   );
 }

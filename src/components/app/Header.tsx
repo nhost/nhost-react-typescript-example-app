@@ -1,30 +1,36 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import classNames from "classnames";
-import { auth } from "src/nhost";
+import { HeaderUser } from "./HeaderUser";
 
 const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  padding: 2rem 0;
-  border-bottom: 1px solid #ccc6c6;
-  .menu-item {
-    color: rgb(69, 69, 69);
-    padding: 1rem 3rem;
-    cursor: pointer;
-    transition-duration: 300ms;
-    border-radius: 4px;
-    text-transform: uppercase;
-    &:hover {
-      background: #ddd;
-    }
+  .user-container {
+    padding: 1rem 2rem;
   }
-  .active {
-    background: #1f89f0;
-    color: #fff;
-    &:hover {
-      background: #1171cd;
+
+  .menu-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 2rem 0;
+    border-bottom: 1px solid #ccc6c6;
+    .menu-item {
+      color: rgb(69, 69, 69);
+      padding: 1rem 3rem;
+      cursor: pointer;
+      transition-duration: 300ms;
+      border-radius: 4px;
+      text-transform: uppercase;
+      &:hover {
+        background: #ddd;
+      }
+    }
+    .active {
+      background: #1f89f0;
+      color: #fff;
+      &:hover {
+        background: #1171cd;
+      }
     }
   }
 `;
@@ -32,7 +38,8 @@ const HeaderContainer = styled.div`
 export interface IHeaderProps {}
 
 export function Header(props: IHeaderProps) {
-  const history = useHistory();
+  console.log("header render?");
+  console.log({ props });
 
   const dashboard_match = useRouteMatch({
     path: "/",
@@ -51,6 +58,11 @@ export function Header(props: IHeaderProps) {
     exact: false,
   });
 
+  const settings_match = useRouteMatch({
+    path: "/settings",
+    exact: false,
+  });
+
   const dashboard_classes = classNames({
     "menu-item": true,
     active: dashboard_match,
@@ -66,29 +78,34 @@ export function Header(props: IHeaderProps) {
     active: files_match,
   });
 
+  const settings_classes = classNames({
+    "menu-item": true,
+    active: settings_match,
+  });
+
   return (
     <HeaderContainer>
-      <Link to={`/`} className={dashboard_classes}>
-        Dashboard
-      </Link>
+      <div className="user-container">
+        <HeaderUser />
+      </div>
 
-      <Link to={`/todos`} className={todo_classes}>
-        Todos
-      </Link>
+      <div className="menu-container">
+        <Link to={`/`} className={dashboard_classes}>
+          Dashboard
+        </Link>
 
-      <Link to={`/files`} className={files_classes}>
-        Files
-      </Link>
+        <Link to={`/todos`} className={todo_classes}>
+          Todos
+        </Link>
 
-      <span
-        onClick={() => {
-          auth.logout();
-          history.push("/");
-        }}
-        className="menu-item"
-      >
-        Log out
-      </span>
+        <Link to={`/files`} className={files_classes}>
+          Files
+        </Link>
+
+        <Link to={`/settings`} className={settings_classes}>
+          Settings
+        </Link>
+      </div>
     </HeaderContainer>
   );
 }
