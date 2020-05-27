@@ -17,8 +17,6 @@ export interface IMainContainerProps {
 }
 
 export function MainContainer(props: IMainContainerProps) {
-  console.log("rerender maincontainer");
-
   return (
     <MainContainerContainer>
       <div className="main-container">

@@ -6,6 +6,9 @@ export const S_USER_GET_SELF = gql`
       id
       display_name
       avatar_url
+      account {
+        email
+      }
     }
   }
 `;

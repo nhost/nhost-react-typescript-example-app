@@ -84,6 +84,8 @@ const S_LOGIN = styled.div`
   }
   .bottom-info {
     margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -209,6 +211,7 @@ export function Login(props: ILoginProps) {
         </div>
         <div className="bottom-info">
           <Link to="/register">Don't have an account? Sign Up!</Link>
+          <Link to="/password-forgot">Forgot password</Link>
         </div>
       </div>
     </S_LOGIN>

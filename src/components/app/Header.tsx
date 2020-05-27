@@ -38,9 +38,6 @@ const HeaderContainer = styled.div`
 export interface IHeaderProps {}
 
 export function Header(props: IHeaderProps) {
-  console.log("header render?");
-  console.log({ props });
-
   const dashboard_match = useRouteMatch({
     path: "/",
     exact: true,

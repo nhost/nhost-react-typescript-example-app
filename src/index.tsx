@@ -5,6 +5,7 @@ import { AuthContextProvider } from "./contexts/auth";
 import * as serviceWorker from "./serviceWorker";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/styles";
+import { SnackbarProvider } from "notistack";
 
 import theme from "./style/theme";
 import "./style/style.css";
@@ -12,10 +13,17 @@ import "./style/style.css";
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AuthContextProvider>
-        <BaseRouter />
-      </AuthContextProvider>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+      >
+        <CssBaseline />
+        <AuthContextProvider>
+          <BaseRouter />
+        </AuthContextProvider>
+      </SnackbarProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -86,6 +86,8 @@ const S_REGISTER = styled.div`
   }
   .bottom-info {
     margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -256,6 +258,7 @@ export function Register(props: IRegisterProps) {
         </div>
         <div className="bottom-info">
           <Link to="/login">Already have an account? Sign in!</Link>
+          <Link to="/password-forgot">Forgot password</Link>
         </div>
       </div>
     </S_REGISTER>
