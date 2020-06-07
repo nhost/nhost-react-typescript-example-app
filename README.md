@@ -45,3 +45,5 @@ Edit `apollo.config.js` and `package.json` (`apollo:generate`). The only thing y
 Once the two files are correctly configured you can auto generate type definitions from GraphQL using:
 
 `yarn apollo:codegen`
+
+All type definitions will be placed in `src/generated/`.
