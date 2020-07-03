@@ -1,4 +1,4 @@
-# Nhost React (Typescript) Example App
+# Nhost React Typescript Example App
 
 [Nhost](https://nhost.io) example app in React (Typescript) using [Hasura](https://hasura.io).
 
