@@ -29,6 +29,7 @@
     "date-fns": "^2.14.0",
     "graphql": "^14.0.0",
     "graphql-tag": "^2.10.3",
+    "nhost-js-sdk": "2.1.6",
     "notistack": "^0.9.16",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

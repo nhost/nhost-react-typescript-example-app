@@ -1,10 +1,11 @@
 import nhost from "nhost-js-sdk";
+import * as config from "../config";
 
-const config = {
-  base_url: "http://localhost:3000",
+const nhostConfig = {
+  base_url: config.BACKEND_ENDPOINT,
 };
 
-nhost.initializeApp(config);
+nhost.initializeApp(nhostConfig);
 
 const auth = nhost.auth();
 const storage = nhost.storage();
