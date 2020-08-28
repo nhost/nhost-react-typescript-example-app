@@ -1,43 +1,9 @@
 import React from "react";
-import styled from "styled-components";
 import { Link, useRouteMatch } from "react-router-dom";
 import classNames from "classnames";
-import { HeaderUser } from "./HeaderUser";
+import { HeaderUser } from "./header-user";
 
-const HeaderContainer = styled.div`
-  .user-container {
-    padding: 1rem 2rem;
-  }
-
-  .menu-container {
-    display: flex;
-    justify-content: space-around;
-    padding: 2rem 0;
-    border-bottom: 1px solid #ccc6c6;
-    .menu-item {
-      color: rgb(69, 69, 69);
-      padding: 1rem 3rem;
-      cursor: pointer;
-      transition-duration: 300ms;
-      border-radius: 4px;
-      text-transform: uppercase;
-      &:hover {
-        background: #ddd;
-      }
-    }
-    .active {
-      background: #1f89f0;
-      color: #fff;
-      &:hover {
-        background: #1171cd;
-      }
-    }
-  }
-`;
-
-export interface IHeaderProps {}
-
-export function Header(props: IHeaderProps) {
+export function Header() {
   const dashboard_match = useRouteMatch({
     path: "/",
     exact: true,
@@ -81,7 +47,7 @@ export function Header(props: IHeaderProps) {
   });
 
   return (
-    <HeaderContainer>
+    <div>
       <div className="user-container">
         <HeaderUser />
       </div>
@@ -103,6 +69,6 @@ export function Header(props: IHeaderProps) {
           Settings
         </Link>
       </div>
-    </HeaderContainer>
+    </div>
   );
 }

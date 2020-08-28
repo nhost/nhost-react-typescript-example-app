@@ -1,6 +1,6 @@
 version: 2
 endpoint: https://hasura-[id].nhost.app
-admin_secret: admin-secret
+admin_secret: <my-admin-secret>
 metadata_directory: metadata
 actions:
   kind: synchronous

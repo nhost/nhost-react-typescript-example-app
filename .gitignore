@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 
-src/config.ts
+src/utils/config.ts
 hasura/config.yaml

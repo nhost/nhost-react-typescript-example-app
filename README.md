@@ -2,19 +2,30 @@
 
 [Nhost](https://nhost.io) example app in React (Typescript) using [Hasura](https://hasura.io).
 
+---
+
+Technologies
+
+- ✨[Nhost](https://nhost.io)
+- ⚡ [React](https://reactjs.org)
+- 💡[TypeScript](https://www.typescriptlang.org)
+- 💅[Tailwind](https://tailwindcss.com/)
+
+---
+
 ## Get started
 
 1. Create a project on [Nhost](https://nhost.io/register).
-2. Clone this repo.
+2. Clone this repo: `git clone git@github.com:nhost/nhost-react-typescript-example-app.git`.
 3. Copy `config-example.yaml` to `config.yaml` in `hasura/`.
-4. Update `config.yaml` with `endpoint` and `admin_secret` in `hasura/`.
-5. Apply migrations and metadata: `cd hasura; hasura migrate apply; hasura metadata apply;`.
-6. Copy `config-example.ts` to `config.ts` in `src/`.
-7. Update `config.ts` with the details from you project at Nhost.
+4. In `hasura/config.yaml`, update `endpoint` and `admin_secret` from your Nhost project.
+5. Apply migrations and metadata in the `hasura/`-folder: `hasura migrate apply; hasura metadata apply;`. Make sure you have the [Hasura CLI installed](https://hasura.io/docs/1.0/graphql/core/hasura-cli/install-hasura-cli.html).
+6. In `src/utils`, copy `config-example.ts` to `config.ts`.
+7. Update `config.ts` with `BACKEND_ENDPOINT` and `GRAPHQL_ENDPOINT` from your project at Nhost.
 8. `yarn install`.
 9. `yarn start`.
 
-> If you have trouble with auth/storage, it might be because you block third party cookies. Either use the same frontend and backend with the same domain, or enable 3rd party cookies in your browser for \*.nhost.app.
+---
 
 ## What's in the example app?
 
@@ -23,7 +34,7 @@
 - Register (email/password)
 - Register using a OAuth provider (Google, Github etc)
 - Login
-- Handle refresh token
+- Handle refresh token (automatically)
 
 ### Data (GraphQL)
 

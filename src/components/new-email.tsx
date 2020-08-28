@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import { auth } from "../nhost";
+import { auth } from "utils/nhost";
 
-const NewEmailContainer = styled.div``;
-
-export interface INewEmailProps {}
-
-export function NewEmail(props: INewEmailProps) {
+export function NewEmail() {
   const [progress, setProgress] = useState("LOADING");
   const { ticket } = useParams();
 
@@ -23,5 +18,5 @@ export function NewEmail(props: INewEmailProps) {
     changeEmailHandler();
   }, [ticket]);
 
-  return <NewEmailContainer>{progress}</NewEmailContainer>;
+  return <div>{progress}</div>;
 }

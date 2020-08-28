@@ -1,39 +1,11 @@
 import React, { useState } from "react";
-import { useSubscription, useMutation } from "@apollo/react-hooks";
-import styled from "styled-components";
+import { useSubscription, useMutation } from "@apollo/client";
 
-import { S_GET_TODOS, UPDATE_TODO, DELETE_TODOS } from "./gql/Todos";
-import { s_getTodos, s_getTodosVariables } from "../../generated/s_getTodos";
-import { TodosForm } from "./TodosForm";
-import { IconButton, Button } from "@material-ui/core";
-import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import { getTodos_todos } from "../../generated/getTodos";
-
-const DIV_TODOS = styled.div`
-  .todo-container {
-    margin-top: 3rem;
-  }
-  .todos-container {
-  }
-  .todo-item-container {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #c8c8c8;
-  }
-  .bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    .filter-buttons {
-      > * {
-        margin: 0 0.3rem;
-      }
-    }
-  }
-`;
+import { Button } from "components/ui";
+import { S_GET_TODOS, UPDATE_TODO, DELETE_TODOS } from "gql/todos";
+import { s_getTodos, s_getTodosVariables } from "generated/s_getTodos";
+import { TodosForm } from "./todos-form";
+import { getTodos_todos } from "generated/getTodos";
 
 export interface ITodosProps {}
 
@@ -96,17 +68,13 @@ export function Todos(props: ITodosProps) {
           return (
             <div key={todo.id} className="todo-item-container">
               <div className="todo-check">
-                <IconButton
+                <button
                   onClick={() => {
                     toggleTodoItem(todo);
                   }}
                 >
-                  {todo.done ? (
-                    <CheckCircleOutlineIcon />
-                  ) : (
-                    <RadioButtonUncheckedIcon />
-                  )}
-                </IconButton>
+                  {todo.done ? <span>done</span> : <span>not done</span>}
+                </button>
               </div>
               <div className="todo-item">{todo.todo}</div>
             </div>
@@ -161,13 +129,13 @@ export function Todos(props: ITodosProps) {
   };
 
   return (
-    <DIV_TODOS>
+    <div>
       <div className="todo-container">
         <div>
           <TodosForm />
         </div>
         <div className="todos-container">{renderTodos()}</div>
       </div>
-    </DIV_TODOS>
+    </div>
   );
 }

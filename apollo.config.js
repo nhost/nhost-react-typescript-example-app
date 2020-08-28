@@ -2,9 +2,9 @@ module.exports = {
   client: {
     service: {
       name: "GraphQL",
-      url: "http://localhost:8080/v1/graphql",
+      url: "https://hasura-[id].nhost.app/v1/graphql",
       headers: {
-        "x-hasura-admin-secret": "hejsan",
+        "x-hasura-admin-secret": "my-admin-secret-from-nhost",
       },
     },
   },

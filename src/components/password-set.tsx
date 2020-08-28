@@ -1,41 +1,38 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
-import { Typography, Button, TextField } from "@material-ui/core/";
-import { auth } from "../nhost";
+import { Button, TextField } from "components/ui";
+import { auth } from "utils/nhost";
 
-const PasswordSetContainer = styled.div`
-  display: grid;
-  grid-template-columns:
-    [full-start] minmax(10px, 1fr) [main-start] minmax(min-content, 440px)
-    [main-end] minmax(10px, 1fr) [full-end];
-  .main-container {
-    grid-column: main;
-    padding-top: 4rem;
+// const PasswordSetContainer = styled.div`
+//   display: grid;
+//   grid-template-columns:
+//     [full-start] minmax(10px, 1fr) [main-start] minmax(min-content, 440px)
+//     [main-end] minmax(10px, 1fr) [full-end];
+//   .main-container {
+//     grid-column: main;
+//     padding-top: 4rem;
 
-    .top-center {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
+//     .top-center {
+//       display: flex;
+//       justify-content: center;
+//       margin-bottom: 1rem;
+//     }
 
-    .signup-form-container {
-      display: grid;
-      grid-row-gap: 1rem;
-    }
-  }
-  .error-container {
-    margin-top: 1rem;
-    background-color: #ffbdbf;
-    padding: 1rem;
-    border-radius: 4px;
-    text-align: center;
-  }
-`;
+//     .signup-form-container {
+//       display: grid;
+//       grid-row-gap: 1rem;
+//     }
+//   }
+//   .error-container {
+//     margin-top: 1rem;
+//     background-color: #ffbdbf;
+//     padding: 1rem;
+//     border-radius: 4px;
+//     text-align: center;
+//   }
+// `;
 
-export interface IPasswordSetProps {}
-
-export function PasswordSet(props: IPasswordSetProps) {
+export function PasswordSet() {
   const [formState, setFormState] = useState({
     completed: false,
     error: false,
@@ -107,7 +104,9 @@ export function PasswordSet(props: IPasswordSetProps) {
               fullWidth
               label="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
             />
 
             <TextField
@@ -119,7 +118,9 @@ export function PasswordSet(props: IPasswordSetProps) {
               fullWidth
               label="Password (again)"
               value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword2(e.target.value)
+              }
             />
 
             <Button
@@ -148,15 +149,13 @@ export function PasswordSet(props: IPasswordSetProps) {
   };
 
   return (
-    <PasswordSetContainer>
+    <div>
       <div className="main-container">
         <div className="top-center">
-          <Typography component="h1" variant="h5">
-            Set new password
-          </Typography>
+          <h1>Set new password</h1>
         </div>
         {formState.completed ? renderFormCompleted() : renderForm()}
       </div>
-    </PasswordSetContainer>
+    </div>
   );
 }

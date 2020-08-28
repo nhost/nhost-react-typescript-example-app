@@ -1,49 +1,12 @@
 import React, { useState, useRef } from "react";
-import styled from "styled-components";
-import {
-  LinearProgress,
-  Button,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-} from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
 import { formatDistanceToNowStrict } from "date-fns";
-import DynamicFeedIcon from "@material-ui/icons/DynamicFeed";
-import { storage } from "../../nhost";
-import { useMutation, useSubscription } from "@apollo/react-hooks";
-import { INSERT_FILE, S_GET_FILES, DELETE_FILES } from "./gql/Files";
-import { s_getFiles, s_getFilesVariables } from "../../generated/s_getFiles";
-import * as config from "../../config";
-
-const FilesContainer = styled.div`
-  margin-top: 3rem;
-
-  .file {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid #ccc6c6;
-  }
-
-  .input-file-container {
-    padding: 3rem 0;
-    border-bottom: 1px solid #ccc6c6;
-
-    .input-file-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-
-  .icon {
-    cursor: pointer;
-  }
-`;
+import { useMutation, useSubscription } from "@apollo/client";
+import { INSERT_FILE, S_GET_FILES, DELETE_FILES } from "gql/files";
+import { s_getFiles, s_getFilesVariables } from "generated/s_getFiles";
+import { storage } from "utils/nhost";
+import { BACKEND_ENDPOINT } from "utils/config";
+import { Button } from "components/ui";
 
 export function FilesList() {
   const { loading, data } = useSubscription<s_getFiles, s_getFilesVariables>(
@@ -80,19 +43,19 @@ export function FilesList() {
   const { files } = data;
 
   return (
-    <Table aria-label="simple table">
-      <TableHead>
-        <TableRow>
-          <TableCell>Name</TableCell>
-          <TableCell>Created</TableCell>
-          <TableCell></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
+    <table aria-label="simple table">
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Created</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
         {files.map((file) => {
           return (
-            <TableRow key={file.id}>
-              <TableCell component="th" scope="row">
+            <tr key={file.id}>
+              <td>
                 <a
                   href={file.downloadable_url}
                   target="_blank"
@@ -100,23 +63,25 @@ export function FilesList() {
                 >
                   {file.file_path}
                 </a>
-              </TableCell>
-              <TableCell>
+              </td>
+              <td>
                 {formatDistanceToNowStrict(new Date(file.created_at), {
                   addSuffix: true,
                 })}
-              </TableCell>
-              <TableCell>
-                <DynamicFeedIcon
+              </td>
+              <td>
+                <span
                   className="icon"
                   onClick={async () => {
                     const metadata = await storage.getMetadata(file.file_path);
                     console.log({ metadata });
                     alert("check logs for metadta ");
                   }}
-                />
-              </TableCell>
-              <TableCell>
+                >
+                  meta
+                </span>
+              </td>
+              <td>
                 <Button
                   onClick={() => {
                     storage.delete(file.file_path);
@@ -133,12 +98,12 @@ export function FilesList() {
                 >
                   Remove
                 </Button>
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           );
         })}
-      </TableBody>
-    </Table>
+      </tbody>
+    </table>
   );
 }
 
@@ -149,6 +114,8 @@ export function Files(props: IFilesProps) {
   const [fileData, setFileData] = useState<File | null>();
   const [uploadState, setUploadState] = useState("");
   const [uploadCompleted, setUploadCompleted] = useState(0);
+
+  console.log("inside files component");
 
   const [
     insertFile,
@@ -172,7 +139,7 @@ export function Files(props: IFilesProps) {
     setUploadState("");
     fileInput.current.value = "";
 
-    const downloadable_url = `${config.BACKEND_ENDPOINT}/storage/o${file_path}`;
+    const downloadable_url = `${BACKEND_ENDPOINT}/storage/o${file_path}`;
     await insertFile({
       variables: {
         file: {
@@ -184,7 +151,7 @@ export function Files(props: IFilesProps) {
   };
 
   return (
-    <FilesContainer>
+    <div>
       <div className="input-file-container">
         <form
           onSubmit={(e) => {
@@ -227,13 +194,13 @@ export function Files(props: IFilesProps) {
         {uploadState === "UPLOADING" && (
           <div className="uploading-progress">
             {uploadCompleted} %
-            <LinearProgress variant="determinate" value={uploadCompleted} />
+            {/* <LinearProgress variant="determinate" value={uploadCompleted} /> */}
           </div>
         )}
       </div>
       <div>
         <FilesList />
       </div>
-    </FilesContainer>
+    </div>
   );
 }

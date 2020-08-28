@@ -50,6 +50,14 @@
         table:
           schema: auth
           name: refresh_tokens
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - email
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
 - table:
     schema: auth
     name: providers
@@ -194,3 +202,15 @@
         table:
           schema: public
           name: todos
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - created_at
+      - updated_at
+      - display_name
+      - avatar_url
+      filter:
+        id:
+          _eq: X-Hasura-User-Id

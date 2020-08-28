@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import { INSERT_TODO } from "./gql/Todos";
-import { useMutation } from "@apollo/react-hooks";
+import { TextField } from "components/ui";
+import { INSERT_TODO } from "gql/todos";
+import { useMutation } from "@apollo/client";
 
 export interface ITodosFormProps {}
 
@@ -31,6 +31,7 @@ export function TodosForm(props: ITodosFormProps) {
     <div>
       <form onSubmit={handleSubmit}>
         <TextField
+          type="text"
           autoFocus
           variant="outlined"
           required
@@ -38,7 +39,7 @@ export function TodosForm(props: ITodosFormProps) {
           id="todo"
           label="Todo"
           placeholder="What needs to be done?"
-          onChange={(e) => setTodoInput(e.target.value)}
+          onChange={(e: any) => setTodoInput(e.target.value)}
           value={todoInput}
         />
       </form>

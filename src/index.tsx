@@ -1,30 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import BaseRouter from "./routers/BaseRouter";
-import { AuthContextProvider } from "./contexts/auth";
 import * as serviceWorker from "./serviceWorker";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { ThemeProvider } from "@material-ui/styles";
-import { SnackbarProvider } from "notistack";
-
-import theme from "./style/theme";
-import "./style/style.css";
+import { NhostAuthProvider, NhostApolloProvider } from "react-nhost";
+import { auth } from "utils/nhost";
+import { Router } from "components/routers/router";
+import { GRAPHQL_ENDPOINT } from "utils/config";
+import "styles/app.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-      >
-        <CssBaseline />
-        <AuthContextProvider>
-          <BaseRouter />
-        </AuthContextProvider>
-      </SnackbarProvider>
-    </ThemeProvider>
+    <NhostAuthProvider auth={auth}>
+      <NhostApolloProvider auth={auth} gql_endpoint={GRAPHQL_ENDPOINT}>
+        <Router />
+      </NhostApolloProvider>
+    </NhostAuthProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

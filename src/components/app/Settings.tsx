@@ -1,37 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { useSubscription } from "@apollo/react-hooks";
-import { TextField, Button } from "@material-ui/core/";
-import { auth } from "../../nhost";
-import { useSnackbar } from "notistack";
-import { S_USER_GET_SELF } from "./gql/Users";
-import { s_userGetSelf } from "src/generated/s_userGetSelf";
-
-const SettingsContainer = styled.div`
-  margin-top: 1rem;
-
-  .settings-container {
-    border: 1px solid #1f89f0;
-    border-radius: 5px;
-    padding: 2rem;
-    margin-bottom: 3rem;
-
-    .settings-contianer-header {
-      font-weight: bold;
-      color: #1f89f0;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-
-    .settings-container-input {
-      margin-top: 1rem;
-    }
-
-    .settings-container-button {
-      margin-top: 1rem;
-    }
-  }
-`;
+import { useSubscription } from "@apollo/client";
+import { TextField, Button } from "components/ui";
+import { auth } from "utils/nhost";
+// import { useSnackbar } from "notistack";
+import { S_USER_GET_SELF } from "gql/users";
+import { s_userGetSelf } from "generated/s_userGetSelf";
 
 function SettingsCurrent() {
   const user_id = auth.getClaim("x-hasura-user-id");
@@ -58,7 +31,7 @@ function SettingsCurrent() {
 function SettingsNewEmail() {
   const [email, setEmail] = useState("");
 
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
 
   async function handleSubmit(e: any) {
     e.preventDefault();
@@ -66,18 +39,19 @@ function SettingsNewEmail() {
     try {
       await auth.changeEmailRequest(email);
     } catch (error) {
-      return enqueueSnackbar("Unable to send email", {
-        variant: "error",
-      });
+      return;
+      // return enqueueSnackbar("Unable to send email", {
+      //   variant: "error",
+      // });
     }
 
     setEmail("");
-    return enqueueSnackbar(
-      "We have sent you an email to your new email for you to confirm.",
-      {
-        variant: "success",
-      }
-    );
+    // return enqueueSnackbar(
+    //   "We have sent you an email to your new email for you to confirm.",
+    //   {
+    //     variant: "success",
+    //   }
+    // );
   }
 
   return (
@@ -90,7 +64,9 @@ function SettingsNewEmail() {
           fullWidth
           type="email"
           label="New email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            setEmail(e.target.value)
+          }
           value={email}
           className="settings-container-input"
           size="small"
@@ -113,15 +89,16 @@ function SettingsNewPassword() {
   const [newPassword, setNewPassword] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
 
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
 
   async function handleSubmit(e: any) {
     e.preventDefault();
 
     if (newPassword !== newPassword2) {
-      return enqueueSnackbar("New password does not match", {
-        variant: "error",
-      });
+      return;
+      // return enqueueSnackbar("New password does not match", {
+      //   variant: "error",
+      // });
     }
 
     try {
@@ -131,17 +108,19 @@ function SettingsNewPassword() {
       try {
         error_message = error.response.data.message;
       } catch (error) {}
-      return enqueueSnackbar(error_message, {
-        variant: "error",
-      });
+      return;
+      // return enqueueSnackbar(error_message, {
+      //   variant: "error",
+      // });
     }
 
     setOldPassword("");
     setNewPassword("");
     setNewPassword2("");
-    return enqueueSnackbar("New password set", {
-      variant: "success",
-    });
+
+    // return enqueueSnackbar("New password set", {
+    //   variant: "success",
+    // });
   }
 
   return (
@@ -154,7 +133,9 @@ function SettingsNewPassword() {
           fullWidth
           type="password"
           label="Old password"
-          onChange={(e) => setOldPassword(e.target.value)}
+          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            setOldPassword(e.target.value)
+          }
           value={oldPassword}
           className="settings-container-input"
           size="small"
@@ -166,7 +147,9 @@ function SettingsNewPassword() {
           fullWidth
           type="password"
           label="New password"
-          onChange={(e) => setNewPassword(e.target.value)}
+          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            setNewPassword(e.target.value)
+          }
           value={newPassword}
           className="settings-container-input"
           size="small"
@@ -178,7 +161,9 @@ function SettingsNewPassword() {
           fullWidth
           type="password"
           label="New password (again)"
-          onChange={(e) => setNewPassword2(e.target.value)}
+          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+            setNewPassword2(e.target.value)
+          }
           value={newPassword2}
           className="settings-container-input"
           size="small"
@@ -201,13 +186,13 @@ export interface ISettingsProps {}
 
 export function Settings(props: ISettingsProps) {
   return (
-    <SettingsContainer>
+    <div>
       <div className="settings-container">
         <div className="settings-contianer-header">Current settings</div>
         <SettingsCurrent />
       </div>
       <SettingsNewEmail />
       <SettingsNewPassword />
-    </SettingsContainer>
+    </div>
   );
 }
