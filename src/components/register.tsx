@@ -44,7 +44,9 @@ export function Register() {
 
   return (
     <div className="max-w-lg mx-auto pt-12">
-      <h1 className="w-full text-center text-2xl mb-3">Nhost Example Login</h1>
+      <h1 className="w-full text-center text-2xl mb-3">
+        Nhost Example Register
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="signup-form-container">
           <TextField

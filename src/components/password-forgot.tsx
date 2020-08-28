@@ -1,131 +1,117 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, TextField } from "components/ui";
 import { auth } from "utils/nhost";
+import { SvgLoading } from "components/svg";
 
-// const PasswordForgotContainer = styled.div`
-//   display: grid;
-//   grid-template-columns:
-//     [full-start] minmax(10px, 1fr) [main-start] minmax(min-content, 440px)
-//     [main-end] minmax(10px, 1fr) [full-end];
-//   .main-container {
-//     grid-column: main;
-//     padding-top: 4rem;
-
-//     .top-center {
-//       display: flex;
-//       justify-content: center;
-//       margin-bottom: 1rem;
-//     }
-
-//     .signup-form-container {
-//       display: grid;
-//       grid-row-gap: 1rem;
-//     }
-//   }
-//   .error-container {
-//     margin-top: 1rem;
-//     background-color: #ffbdbf;
-//     padding: 1rem;
-//     border-radius: 4px;
-//     text-align: center;
-//   }
-// `;
-
-export interface IPasswordForgotProps {}
-
-export function PasswordForgot(props: IPasswordForgotProps) {
-  const [formState, setFormState] = useState({
-    completed: false,
-    error: false,
-    error_message: "",
-    loading: false,
-  });
+export function PasswordForgot() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [completed, setCompleted] = useState(false);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
-    // reset error message
-    setFormState({
-      completed: false,
-      error: false,
-      error_message: "",
-      loading: true,
-    });
-
-    // make request
     try {
       await auth.changePasswordRequest(email);
-    } catch (error) {
-      // set error message
-      let error_message = "Server is down";
+    } catch (err) {
       try {
-        error_message = error.response.data.message;
-      } catch (error) {}
-      return setFormState({
-        completed: false,
-        error: true,
-        error_message,
-        loading: false,
-      });
+        setError(err.response.data.message);
+      } catch (error) {
+        setError(err.message);
+      }
+      return;
+    } finally {
+      setLoading(false);
     }
 
-    setFormState({
-      completed: true,
-      error: false,
-      error_message: "",
-      loading: false,
-    });
+    setLoading(false);
+    setCompleted(true);
   };
 
-  const renderForm = () => {
+  if (completed) {
     return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <div className="signup-form-container">
-            <TextField
-              autoFocus
-              type="email"
-              name="email"
-              variant="outlined"
-              required
-              fullWidth
-              label="Email"
-              value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setEmail(e.target.value)
-              }
-            />
+      <div className="text-center pt-12">
+        We have sent you an email to change your password.
+        <div className="mt-4 p-4 border rounded max-w-lg mx-auto">
+          You'll get a <i className="font-bold">ticket</i> in an email to the
+          email addres. Use the <i className="font-bold">ticket</i> as this url:{" "}
+          <code className="text-sm">
+            http://localhost:3000/password-set/
+            <span className="font-bold">{"<ticket>"}</span>
+          </code>
+          .
+          <br />
+          <br />
+          You can change your e-mail templates to match this new url. Read more
+          here:{" "}
+          <a
+            className="text-indigo-700"
+            href="https://docs.nhost.io/auth/email-templates"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            https://docs.nhost.io/auth/email-templates
+          </a>
+          .
+        </div>
+      </div>
+    );
+  }
 
+  return (
+    <div className="max-w-lg mx-auto pt-12">
+      <h1 className="w-full text-center text-2xl mb-3">Request new password</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="signup-form-container">
+          <TextField
+            autoFocus
+            placeholder="Email"
+            autoComplete="email"
+            className="block mb-3"
+            type="email"
+            required
+            fullWidth
+            value={email}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
+          />
+
+          <div>
             <Button
               variant="contained"
               color="primary"
               type="submit"
-              className="submit-button"
+              disabled={loading}
+              fullWidth
             >
+              {loading && <SvgLoading className="w-6 h-6 mr-4" />}
               Request new password
             </Button>
           </div>
-        </form>
-        {formState.error && (
-          <div className="error-container">{formState.error_message}</div>
-        )}
-      </>
-    );
-  };
-
-  const renderFormCompleted = () => {
-    return <div>Perfect, we have sent you an link to your email.</div>;
-  };
-
-  return (
-    <div>
-      <div className="main-container">
-        <div className="top-center">
-          <h1>Forgot password</h1>
         </div>
-        {formState.completed ? renderFormCompleted() : renderForm()}
+      </form>
+      {error && <div className="my-4 p-4 bg-red-200">{error}</div>}
+
+      <div className="text-center mt-8">
+        <div className="mb-2">
+          Already have an account?{" "}
+          <Link className="text-indigo-700" to="/login">
+            Sign In!
+          </Link>
+        </div>
+        <div className="mb-2">
+          Don't have an account?{" "}
+          <Link className="text-indigo-700" to="/register">
+            Sign Up!
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
+
+export interface IPasswordForgotProps {}

@@ -2,160 +2,79 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button, TextField } from "components/ui";
 import { auth } from "utils/nhost";
-
-// const PasswordSetContainer = styled.div`
-//   display: grid;
-//   grid-template-columns:
-//     [full-start] minmax(10px, 1fr) [main-start] minmax(min-content, 440px)
-//     [main-end] minmax(10px, 1fr) [full-end];
-//   .main-container {
-//     grid-column: main;
-//     padding-top: 4rem;
-
-//     .top-center {
-//       display: flex;
-//       justify-content: center;
-//       margin-bottom: 1rem;
-//     }
-
-//     .signup-form-container {
-//       display: grid;
-//       grid-row-gap: 1rem;
-//     }
-//   }
-//   .error-container {
-//     margin-top: 1rem;
-//     background-color: #ffbdbf;
-//     padding: 1rem;
-//     border-radius: 4px;
-//     text-align: center;
-//   }
-// `;
+import { SvgLoading } from "components/svg";
 
 export function PasswordSet() {
-  const [formState, setFormState] = useState({
-    completed: false,
-    error: false,
-    error_message: "",
-    loading: false,
-  });
   const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [completed, setCompleted] = useState(false);
 
   const { ticket } = useParams();
-  console.log({ ticket });
 
-  const handleSubmit = async (e: any) => {
-    console.log("handle submit");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // reset error message
-    setFormState({
-      completed: false,
-      error: false,
-      error_message: "",
-      loading: true,
-    });
-
-    if (password !== password2) {
-      return setFormState({
-        completed: false,
-        error: true,
-        error_message: "Passwords does not match",
-        loading: false,
-      });
-    }
+    setLoading(true);
 
     try {
       await auth.changePasswordChange(password, ticket);
-    } catch (error) {
-      // set error message
-      let error_message = "Server is down";
+    } catch (err) {
       try {
-        error_message = error.response.data.message;
-      } catch (error) {}
-      return setFormState({
-        completed: false,
-        error: true,
-        error_message,
-        loading: false,
-      });
+        setError(err.response.data.message);
+      } catch (error) {
+        setError(err.message);
+      }
+      return;
+    } finally {
+      setLoading(false);
     }
 
-    setFormState({
-      completed: true,
-      error: false,
-      error_message: "",
-      loading: false,
-    });
+    setLoading(false);
+    setCompleted(true);
   };
 
-  const renderForm = () => {
+  if (completed) {
     return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <div className="signup-form-container">
-            <TextField
-              autoFocus
-              type="password"
-              name="password"
-              variant="outlined"
-              required
-              fullWidth
-              label="Password"
-              value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPassword(e.target.value)
-              }
-            />
+      <div className="text-center pt-12">
+        Password updated! Now <Link to="/login">Sign In!</Link>
+      </div>
+    );
+  }
 
-            <TextField
-              autoComplete="password"
-              type="password"
-              name="password"
-              variant="outlined"
-              required
-              fullWidth
-              label="Password (again)"
-              value={password2}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPassword2(e.target.value)
-              }
-            />
+  return (
+    <div className="max-w-lg mx-auto pt-12">
+      <h1 className="w-full text-center text-2xl mb-3">Request new password</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="signup-form-container">
+          <TextField
+            autoFocus
+            placeholder="New password"
+            autoComplete="password"
+            className="block mb-3"
+            type="password"
+            required
+            fullWidth
+            value={password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
+          />
 
+          <div>
             <Button
               variant="contained"
               color="primary"
               type="submit"
-              className="submit-button"
+              disabled={loading}
+              fullWidth
             >
+              {loading && <SvgLoading className="w-6 h-6 mr-4" />}
               Set new password
             </Button>
           </div>
-        </form>
-        {formState.error && (
-          <div className="error-container">{formState.error_message}</div>
-        )}
-      </>
-    );
-  };
-
-  const renderFormCompleted = () => {
-    return (
-      <div>
-        Your new password is set. You can now <Link to="/login">login</Link>.
-      </div>
-    );
-  };
-
-  return (
-    <div>
-      <div className="main-container">
-        <div className="top-center">
-          <h1>Set new password</h1>
         </div>
-        {formState.completed ? renderFormCompleted() : renderForm()}
-      </div>
+      </form>
+      {error && <div className="my-4 p-4 bg-red-200">{error}</div>}
     </div>
   );
 }
