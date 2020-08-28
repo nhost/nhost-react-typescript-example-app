@@ -90,7 +90,7 @@ export function Login() {
       {/* <div className="or-signup-with">OR SIGN IN WITH</div> */}
 
       <div className="w-full text-center uppercase text-gray-600 py-8">
-        or sign up with
+        or sign in with
       </div>
       <div className="mb-8">
         <a

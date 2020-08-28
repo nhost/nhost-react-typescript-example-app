@@ -23,7 +23,9 @@ export function Register() {
     setLoading(true);
 
     try {
-      await auth.login(email, password);
+      await auth.register(email, password, {
+        display_name: name,
+      });
     } catch (err) {
       try {
         setError(err.response.data.message);
@@ -36,6 +38,8 @@ export function Register() {
     }
 
     setLoading(false);
+
+    await auth.register(email, password);
     history.push("/");
   };
 
@@ -46,6 +50,19 @@ export function Register() {
         <div className="signup-form-container">
           <TextField
             autoFocus
+            placeholder="Name"
+            autoComplete="name"
+            className="block mb-3"
+            type="text"
+            required
+            fullWidth
+            value={name}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
+          />
+
+          <TextField
             placeholder="Email"
             autoComplete="email"
             className="block mb-3"
@@ -82,7 +99,7 @@ export function Register() {
               fullWidth
             >
               {loading && <SvgLoading className="w-6 h-6 mr-4" />}
-              Sign in
+              Sign Up
             </Button>
           </div>
         </div>
@@ -100,7 +117,7 @@ export function Register() {
         >
           <img className="p-3 border-r" src={github} alt="github" />
           <div className="flex items-center text-xl pl-3">
-            Sign in with Github
+            Sign up with Github
           </div>
         </a>
         <a
@@ -109,7 +126,7 @@ export function Register() {
         >
           <img className="p-3 border-r" src={google} alt="google" />
           <div className="flex items-center text-xl pl-3">
-            Sign in with Google
+            Sign up with Google
           </div>
         </a>
         <a
@@ -118,15 +135,15 @@ export function Register() {
         >
           <img className="p-3 border-r" src={facebook} alt="facebook" />
           <div className="flex items-center text-xl pl-3">
-            Sign in with Facebook
+            Sign up with Facebook
           </div>
         </a>
       </div>
       <div className="text-center">
         <div className="mb-2">
-          Don't have an account?{" "}
-          <Link className="text-indigo-700" to="/register">
-            Sign Up!
+          Already have an account?{" "}
+          <Link className="text-indigo-700" to="/login">
+            Sign In!
           </Link>
         </div>
         <div>
