@@ -95,6 +95,7 @@ function SettingsNewEmail() {
           className="text-indigo-700"
           href="https://docs.nhost.io/auth/email-templates"
           target="_blank"
+          rel="noopener noreferrer"
         >
           https://docs.nhost.io/auth/email-templates
         </a>
