@@ -12,29 +12,38 @@ export function HeaderUser() {
 
   const user_id = auth.getClaim("x-hasura-user-id");
 
-  const { loading, data } = useSubscription<s_userGetSelf>(S_USER_GET_SELF, {
-    variables: {
-      id: user_id,
-    },
-  });
+  const { loading, error, data } = useSubscription<s_userGetSelf>(
+    S_USER_GET_SELF,
+    {
+      variables: {
+        id: user_id,
+      },
+    }
+  );
 
   if (loading) return <div>Loading..</div>;
-  if (!data?.users_by_pk) return <div>Unable to load user</div>;
+  if (!data?.users_by_pk || error) {
+    return <div>Unable to load user</div>;
+  }
 
   const user = data.users_by_pk;
 
   return (
-    <div>
+    <div className="flex items-center h-full">
       {user.avatar_url ? (
-        <img src={user.avatar_url} alt={`Avatar`} className="avatar-image" />
+        <img
+          src={user.avatar_url}
+          alt={`Avatar`}
+          className="rounded-full w-8 h-8"
+        />
       ) : (
         // <AccountCircle className="avatar-image" />
-        <div>avatar circle</div>
+        <div className="rounded-full bg-indigo-500 w-8 h-8"></div>
       )}
-      <div className="user-info">
-        {user.display_name},{" "}
+      <div className="ml-4">
+        {user.display_name}
         <span
-          className="logout-link"
+          className="ml-4 rounded p-3 hover:bg-gray-200 cursor-pointer"
           onClick={() => {
             auth.logout();
             history.push("/");

@@ -27,32 +27,32 @@ export function Header() {
   });
 
   const dashboard_classes = classNames({
-    "menu-item": true,
-    active: dashboard_match,
+    "mr-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
+    "border-b-2 border-indigo-600 text-gray-900": dashboard_match,
   });
 
   const todo_classes = classNames({
-    "menu-item": true,
-    active: todo_match,
+    "mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
+    "border-b-2 border-indigo-600 text-gray-900": todo_match,
   });
 
   const files_classes = classNames({
-    "menu-item": true,
-    active: files_match,
+    "mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
+    "border-b-2 border-indigo-800": files_match,
   });
 
   const settings_classes = classNames({
-    "menu-item": true,
-    active: settings_match,
+    "mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
+    "border-b-2 border-indigo-800": settings_match,
   });
 
   return (
     <div>
-      <div className="user-container">
+      <div className="" style={{ height: "64px" }}>
         <HeaderUser />
       </div>
 
-      <div className="menu-container">
+      <div className="flex border-b border-gray-300">
         <Link to={`/`} className={dashboard_classes}>
           Dashboard
         </Link>

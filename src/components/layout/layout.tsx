@@ -11,7 +11,7 @@ type LayoutProps = {
 export function Layout(props: LayoutProps) {
   const { children, className } = props;
 
-  const classes = classNames([className]);
+  const classes = classNames(["container mx-auto", className]);
 
   return (
     <div className={classes}>
