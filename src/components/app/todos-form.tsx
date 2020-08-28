@@ -10,7 +10,7 @@ export function TodosForm(props: ITodosFormProps) {
 
   const [
     addTodo,
-    // { loading: mutationLoading, error: mutationError },
+    { loading: mutationLoading, error: mutationError },
   ] = useMutation(INSERT_TODO);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,6 +41,7 @@ export function TodosForm(props: ITodosFormProps) {
           placeholder="What needs to be done?"
           onChange={(e: any) => setTodoInput(e.target.value)}
           value={todoInput}
+          disabled={mutationLoading}
         />
       </form>
     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSubscription, useMutation } from "@apollo/client";
+import classNames from "classnames";
 
 import { Button } from "components/ui";
 import { S_GET_TODOS, UPDATE_TODO, DELETE_TODOS } from "gql/todos";
@@ -34,11 +35,15 @@ export function Todos(props: ITodosProps) {
 
   const renderTodos = () => {
     if (loading) {
-      return <div>Loading...</div>;
+      return <div className="text-gray-500 text-center pt-8">Loading...</div>;
     }
 
     if (!data || data.todos.length === 0) {
-      return <div>No todos</div>;
+      return (
+        <div className="text-gray-500 text-center pt-8">
+          No todos. Create one!
+        </div>
+      );
     }
 
     const { todos } = data;
@@ -62,52 +67,115 @@ export function Todos(props: ITodosProps) {
       todos_filtered = todos;
     }
 
+    const buttonFilterAll = classNames([
+      "py-1 px-2 mx-3 outline-none",
+      {
+        border: filter === "all",
+      },
+    ]);
+
+    const buttonFilterActive = classNames([
+      "py-1 px-2 mx-3 outline-none",
+      {
+        border: filter === "active",
+      },
+    ]);
+
+    const buttonFilterCompleted = classNames([
+      "py-1 px-2 mx-3 outline-none",
+      {
+        border: filter === "completed",
+      },
+    ]);
+
     return (
-      <div>
+      <div className="pt-3">
         {todos_filtered.map((todo) => {
+          const checkboxClasses = classNames([
+            "flex items-center justify-center",
+            "w-6",
+            "h-6",
+            "rounded-full",
+            "border",
+            "cursor-pointer",
+            "hover:shadow-lg",
+            "transition easy-in-out duration-150",
+            {
+              "text-teal-400": todo.done,
+              "border-teal-400": todo.done,
+            },
+          ]);
+
+          const textClasses = classNames([
+            "pl-4",
+            "transition easy-in-out duration-150",
+            {
+              "text-gray-600": todo.done,
+              "line-through": todo.done,
+            },
+          ]);
+
           return (
-            <div key={todo.id} className="todo-item-container">
-              <div className="todo-check">
-                <button
-                  onClick={() => {
-                    toggleTodoItem(todo);
-                  }}
-                >
-                  {todo.done ? <span>done</span> : <span>not done</span>}
-                </button>
+            <div key={todo.id} className="flex items-center py-3">
+              <div
+                className={checkboxClasses}
+                onClick={() => {
+                  toggleTodoItem(todo);
+                }}
+              >
+                {todo.done && (
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    className="check w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
               </div>
-              <div className="todo-item">{todo.todo}</div>
+              {/* {todo.done ? <span>done</span> : <span>not done</span>} */}
+              <div className={textClasses}>{todo.todo}</div>
             </div>
           );
         })}
 
-        <div className="bottom">
-          <div className="items-left">{todos_left} items left</div>
+        <div className="flex justify-between items-center border-t border-gray-300 pt-3 text-sm text-gray-600">
+          <div className="">{todos_left} items left</div>
           <div className="filter-buttons">
-            <Button
+            <button
+              className={buttonFilterAll}
               onClick={() => {
                 setFilter("all");
               }}
             >
               All
-            </Button>
-            <Button
+            </button>
+            <button
+              className={buttonFilterActive}
               onClick={() => {
                 setFilter("active");
               }}
             >
               Active
-            </Button>
-            <Button
+            </button>
+            <button
+              className={buttonFilterCompleted}
               onClick={() => {
                 setFilter("completed");
               }}
             >
               Completed
-            </Button>
+            </button>
           </div>
           <div className="">
-            <Button
+            <button
+              className="rounded p-3 hover:bg-gray-200"
               onClick={() => {
                 deleteTodos({
                   variables: {
@@ -121,7 +189,7 @@ export function Todos(props: ITodosProps) {
               }}
             >
               Clear completed
-            </Button>
+            </button>
           </div>
         </div>
       </div>
@@ -129,13 +197,11 @@ export function Todos(props: ITodosProps) {
   };
 
   return (
-    <div>
-      <div className="todo-container">
-        <div>
-          <TodosForm />
-        </div>
-        <div className="todos-container">{renderTodos()}</div>
+    <div className="py-6 max-w-xl mx-auto">
+      <div>
+        <TodosForm />
       </div>
+      <div className="todos-container">{renderTodos()}</div>
     </div>
   );
 }

@@ -14,6 +14,8 @@ export function TextField(props: TextFieldProps) {
 
   const classes = classNames([
     "py-2 px-4 border border-gray-600 rounded",
+    "outline-none focus:border-indigo-600 focus:shadow-md",
+    "transition easy-in-out duration-300",
     {
       "w-full": fullWidth,
     },

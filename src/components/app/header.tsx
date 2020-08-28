@@ -27,47 +27,49 @@ export function Header() {
   });
 
   const dashboard_classes = classNames({
-    "mr-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
+    "block mr-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
     "border-b-2 border-indigo-600 text-gray-900": dashboard_match,
   });
 
   const todo_classes = classNames({
-    "mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
+    "block mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
     "border-b-2 border-indigo-600 text-gray-900": todo_match,
   });
 
   const files_classes = classNames({
-    "mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
+    "block mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
     "border-b-2 border-indigo-800": files_match,
   });
 
   const settings_classes = classNames({
-    "mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
+    "block mx-3 pb-4 text-gray-600 transition easy-in-out duration-200": true,
     "border-b-2 border-indigo-800": settings_match,
   });
 
   return (
     <div>
-      <div className="" style={{ height: "64px" }}>
+      <div className="container mx-auto" style={{ height: "64px" }}>
         <HeaderUser />
       </div>
 
-      <div className="flex border-b border-gray-300">
-        <Link to={`/`} className={dashboard_classes}>
-          Dashboard
-        </Link>
+      <div className="border-b border-gray-300">
+        <div className="flex container mx-auto">
+          <Link to={`/`} className={dashboard_classes}>
+            Dashboard
+          </Link>
 
-        <Link to={`/todos`} className={todo_classes}>
-          Todos
-        </Link>
+          <Link to={`/todos`} className={todo_classes}>
+            Todos
+          </Link>
 
-        <Link to={`/files`} className={files_classes}>
-          Files
-        </Link>
+          <Link to={`/files`} className={files_classes}>
+            Files
+          </Link>
 
-        <Link to={`/settings`} className={settings_classes}>
-          Settings
-        </Link>
+          <Link to={`/settings`} className={settings_classes}>
+            Settings
+          </Link>
+        </div>
       </div>
     </div>
   );
