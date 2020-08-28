@@ -79,6 +79,27 @@ function SettingsNewEmail() {
         </Button>
       </form>
       {error && <div className="my-4 p-4 bg-red-200">{error}</div>}
+      <div className="mt-4 p-4 border rounded">
+        You'll get a <i className="font-bold">ticket</i> in an email to the new
+        email addres. Use the <i className="font-bold">ticket</i> as this url:{" "}
+        <code className="text-sm">
+          http://localhost:3000/new-email/
+          <span className="font-bold">{"<ticket>"}</span>
+        </code>
+        .
+        <br />
+        <br />
+        You can change your e-mail templates to match this new url. Read more
+        here:{" "}
+        <a
+          className="text-indigo-700"
+          href="https://docs.nhost.io/auth/email-templates"
+          target="_blank"
+        >
+          https://docs.nhost.io/auth/email-templates
+        </a>
+        .
+      </div>
     </div>
   );
 }
@@ -166,7 +187,7 @@ export function Settings(props: ISettingsProps) {
   return (
     <div className="max-w-xl mx-auto py-6">
       <div className="pb-6">
-        <div className="font-bold text-gray-600">Current settings:</div>
+        <div className="font-bold">Current settings:</div>
         <SettingsCurrent />
       </div>
       <SettingsNewEmail />
