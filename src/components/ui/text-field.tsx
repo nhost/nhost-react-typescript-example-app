@@ -13,7 +13,7 @@ export function TextField(props: TextFieldProps) {
   const { type, disabled, className, fullWidth, ...rest } = props;
 
   const classes = classNames([
-    "py-2 px-4 border rounded",
+    "py-2 px-4 border border-gray-600 rounded",
     {
       "w-full": fullWidth,
     },

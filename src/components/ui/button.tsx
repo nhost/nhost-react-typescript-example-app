@@ -12,9 +12,11 @@ export function Button(props: ButtonProps) {
   const { children, className, disabled, fullWidth, ...rest } = props;
 
   const classes = classNames([
-    "px-4 py-3 rounded-md bg-indigo-800 text-white",
+    "px-4 py-3 rounded-md bg-indigo-600 text-white uppercase",
     {
       "w-full": fullWidth,
+      "opacity-50": disabled,
+      "cursor-not-allowed": disabled,
     },
     className,
   ]);
