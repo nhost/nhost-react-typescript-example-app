@@ -18,7 +18,7 @@
     "date-fns": "^2.14.0",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
-    "nhost-js-sdk": "2.1.6",
+    "nhost-js-sdk": "2.1.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.7.2",

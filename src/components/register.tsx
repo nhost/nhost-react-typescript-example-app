@@ -32,7 +32,6 @@ export function Register() {
       } catch (error) {
         setError(err.message);
       }
-      return;
     } finally {
       setLoading(false);
     }

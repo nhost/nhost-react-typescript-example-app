@@ -12,7 +12,7 @@ export function Button(props: ButtonProps) {
   const { children, className, disabled, fullWidth, ...rest } = props;
 
   const classes = classNames([
-    "px-4 py-3 rounded-md bg-indigo-600 text-white uppercase",
+    "px-4 py-2 rounded-md bg-indigo-600 text-white uppercase",
     {
       "w-full": fullWidth,
       "opacity-50": disabled,

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSubscription } from "@apollo/client";
 import { TextField, Button } from "components/ui";
 import { auth } from "utils/nhost";
-// import { useSnackbar } from "notistack";
 import { S_USER_GET_SELF } from "gql/users";
 import { s_userGetSelf } from "generated/s_userGetSelf";
 
@@ -30,6 +29,8 @@ function SettingsCurrent() {
 
 function SettingsNewEmail() {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const { enqueueSnackbar } = useSnackbar();
 
@@ -38,41 +39,38 @@ function SettingsNewEmail() {
 
     try {
       await auth.changeEmailRequest(email);
-    } catch (error) {
+    } catch (err) {
+      try {
+        setError(err.response.data.message);
+      } catch (error) {
+        setError(err.message);
+      }
       return;
-      // return enqueueSnackbar("Unable to send email", {
-      //   variant: "error",
-      // });
+    } finally {
+      setLoading(false);
     }
 
     setEmail("");
-    // return enqueueSnackbar(
-    //   "We have sent you an email to your new email for you to confirm.",
-    //   {
-    //     variant: "success",
-    //   }
-    // );
   }
 
   return (
-    <div className="settings-container">
-      <div className="settings-contianer-header">New email</div>
+    <div className="py-4 border-t">
+      <div className="font-bold mb-2">New email</div>
       <form onSubmit={handleSubmit}>
         <TextField
-          variant="outlined"
+          className="mb-2"
           required
           fullWidth
           type="email"
-          label="New email"
+          placeholder="New email"
           onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
             setEmail(e.target.value)
           }
           value={email}
-          className="settings-container-input"
-          size="small"
         />
         <Button
           variant="outlined"
+          disabled={loading}
           // color="primary"
           type="submit"
           className="settings-container-button"
@@ -80,6 +78,7 @@ function SettingsNewEmail() {
           Set new email
         </Button>
       </form>
+      {error && <div className="my-4 p-4 bg-red-200">{error}</div>}
     </div>
   );
 }
@@ -87,36 +86,31 @@ function SettingsNewEmail() {
 function SettingsNewPassword() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [newPassword2, setNewPassword2] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const { enqueueSnackbar } = useSnackbar();
 
   async function handleSubmit(e: any) {
     e.preventDefault();
 
-    if (newPassword !== newPassword2) {
-      return;
-      // return enqueueSnackbar("New password does not match", {
-      //   variant: "error",
-      // });
-    }
+    setLoading(true);
 
     try {
       await auth.changePassword(oldPassword, newPassword);
-    } catch (error) {
-      let error_message = "Unable to change password";
+    } catch (err) {
       try {
-        error_message = error.response.data.message;
-      } catch (error) {}
+        setError(err.response.data.message);
+      } catch (error) {
+        setError(err.message);
+      }
       return;
-      // return enqueueSnackbar(error_message, {
-      //   variant: "error",
-      // });
+    } finally {
+      setLoading(false);
     }
 
     setOldPassword("");
     setNewPassword("");
-    setNewPassword2("");
 
     // return enqueueSnackbar("New password set", {
     //   variant: "success",
@@ -124,59 +118,43 @@ function SettingsNewPassword() {
   }
 
   return (
-    <div className="settings-container">
-      <div className="settings-contianer-header">New Password</div>
+    <div className="py-4 border-t">
+      <div className="font-bold mb-2">New Password</div>
       <form onSubmit={handleSubmit}>
         <TextField
-          variant="outlined"
+          className="mb-2"
           required
           fullWidth
           type="password"
-          label="Old password"
+          placeholder="Old password"
           onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
             setOldPassword(e.target.value)
           }
           value={oldPassword}
-          className="settings-container-input"
-          size="small"
         />
 
         <TextField
-          variant="outlined"
+          className="mb-2"
           required
           fullWidth
           type="password"
-          label="New password"
+          placeholder="New password"
           onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
             setNewPassword(e.target.value)
           }
           value={newPassword}
-          className="settings-container-input"
-          size="small"
-        />
-
-        <TextField
-          variant="outlined"
-          required
-          fullWidth
-          type="password"
-          label="New password (again)"
-          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
-            setNewPassword2(e.target.value)
-          }
-          value={newPassword2}
-          className="settings-container-input"
-          size="small"
         />
 
         <Button
           variant="outlined"
-          // color="primary"
+          disabled={loading}
           type="submit"
           className="settings-container-button"
         >
           Set new password
         </Button>
+
+        {error && <div className="my-4 p-4 bg-red-200">{error}</div>}
       </form>
     </div>
   );
@@ -186,9 +164,9 @@ export interface ISettingsProps {}
 
 export function Settings(props: ISettingsProps) {
   return (
-    <div>
-      <div className="settings-container">
-        <div className="settings-contianer-header">Current settings</div>
+    <div className="max-w-xl mx-auto py-6">
+      <div className="pb-6">
+        <div className="font-bold text-gray-600">Current settings:</div>
         <SettingsCurrent />
       </div>
       <SettingsNewEmail />
