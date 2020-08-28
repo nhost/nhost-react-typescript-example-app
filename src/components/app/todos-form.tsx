@@ -16,13 +16,17 @@ export function TodosForm(props: ITodosFormProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await addTodo({
-      variables: {
-        todo: {
-          todo: todoInput,
+    try {
+      await addTodo({
+        variables: {
+          todo: {
+            todo: todoInput,
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      // error, we'll catch this error in `mutationError`.
+    }
 
     setTodoInput("");
   };
@@ -44,6 +48,13 @@ export function TodosForm(props: ITodosFormProps) {
           disabled={mutationLoading}
         />
       </form>
+
+      {mutationError && (
+        <div className="mt-6 p-3 bg-red-200">
+          <div className="mb-2 font-bold">Error:</div>
+          {mutationError.message}
+        </div>
+      )}
     </div>
   );
 }

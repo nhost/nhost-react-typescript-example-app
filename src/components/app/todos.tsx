@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSubscription, useMutation } from "@apollo/client";
 import classNames from "classnames";
 
-import { Button } from "components/ui";
 import { S_GET_TODOS, UPDATE_TODO, DELETE_TODOS } from "gql/todos";
 import { s_getTodos, s_getTodosVariables } from "generated/s_getTodos";
 import { TodosForm } from "./todos-form";
