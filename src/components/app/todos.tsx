@@ -197,10 +197,8 @@ export function Todos(props: ITodosProps) {
 
   return (
     <div className="py-6 max-w-xl mx-auto">
-      <div>
-        <TodosForm />
-      </div>
-      <div className="todos-container">{renderTodos()}</div>
+      <TodosForm />
+      {renderTodos()}
     </div>
   );
 }

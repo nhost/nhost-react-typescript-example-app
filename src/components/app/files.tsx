@@ -33,18 +33,18 @@ export function FilesList() {
   }, [forceUpdateValue]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-gray-500 text-center pt-8">Loading...</div>;
   }
 
   if (!data || data.files.length === 0) {
-    return <div>No files.</div>;
+    return <div className="text-gray-500 text-center pt-8">No files.</div>;
   }
 
   const { files } = data;
 
   return (
-    <table aria-label="simple table">
-      <thead>
+    <table className="w-full">
+      <thead className="font-bold">
         <tr>
           <td>Name</td>
           <td>Created</td>
@@ -54,9 +54,10 @@ export function FilesList() {
       <tbody>
         {files.map((file) => {
           return (
-            <tr key={file.id}>
-              <td>
+            <tr key={file.id} className="odd:bg-gray-200">
+              <td className="py-3">
                 <a
+                  className="pl-4 hover:text-indigo-600"
                   href={file.downloadable_url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -70,8 +71,8 @@ export function FilesList() {
                 })}
               </td>
               <td>
-                <span
-                  className="icon"
+                <button
+                  className="py-1 px-4 border rounded"
                   onClick={async () => {
                     const metadata = await storage.getMetadata(file.file_path);
                     console.log({ metadata });
@@ -79,10 +80,11 @@ export function FilesList() {
                   }}
                 >
                   meta
-                </span>
+                </button>
               </td>
               <td>
-                <Button
+                <button
+                  className="py-1 px-4 border rounded"
                   onClick={() => {
                     storage.delete(file.file_path);
                     deleteFile({
@@ -97,7 +99,7 @@ export function FilesList() {
                   }}
                 >
                   Remove
-                </Button>
+                </button>
               </td>
             </tr>
           );
@@ -151,45 +153,47 @@ export function Files(props: IFilesProps) {
   };
 
   return (
-    <div>
-      <div className="input-file-container">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-        >
-          <div className="input-file-header">
-            <input
-              type="file"
-              onChange={(e) => {
-                if (!e.target.files?.length) return;
-                setFileData(e.target.files[0]);
-              }}
-              ref={fileInput}
-            />
-            <Button
-              color="primary"
-              variant="contained"
-              disabled={uploadState === "UPLOADING"}
-              type="submit"
-            >
-              Upload
-            </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              disabled={uploadState === "UPLOADING"}
-              onClick={async () => {
-                const metadata = await storage.getMetadata("/public/");
-                console.log({ metadata });
-                alert("check logs for metadta ");
-              }}
-            >
-              Get /public/ metadata
-            </Button>
-          </div>
-        </form>
+    <div className="max-w-4xl mx-auto py-6">
+      <div className="max-w-xl mx-auto">
+        <div className="py-6">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <div className="input-file-header">
+              <input
+                type="file"
+                onChange={(e) => {
+                  if (!e.target.files?.length) return;
+                  setFileData(e.target.files[0]);
+                }}
+                ref={fileInput}
+              />
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={uploadState === "UPLOADING"}
+                type="submit"
+              >
+                Upload
+              </Button>
+            </div>
+          </form>
+        </div>
+        <div className="py-6">
+          <Button
+            disabled={uploadState === "UPLOADING"}
+            onClick={async () => {
+              const metadata = await storage.getMetadata("/public/");
+              console.log({ metadata });
+              alert("check logs for metadta ");
+            }}
+          >
+            Get /public/ metadata
+          </Button>
+        </div>
 
         {uploadState === "UPLOADING" && (
           <div className="uploading-progress">
@@ -198,7 +202,7 @@ export function Files(props: IFilesProps) {
           </div>
         )}
       </div>
-      <div>
+      <div className="mt-8">
         <FilesList />
       </div>
     </div>
